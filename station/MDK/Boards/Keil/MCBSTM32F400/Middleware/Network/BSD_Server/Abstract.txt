@@ -1,0 +1,25 @@
+This program is a BSD_Server example. It is used to serve LED control
+requests received from the client.
+
+In order to run this example, you need to set the network parameters
+to match your local area network.
+
+To test this example, run windows application "LEDSwitch.exe" on your PC.
+Enter the IP address, server port and select the transfer protocol TCP or UDP.
+When you change the value of P2 in windows application, LED diodes on
+evaluation board should light accordingly.
+
+The same example can be tested also with BSD_Client running on another
+evaluation board. 
+
+The BSD_Server example is available for multiple targets:
+
+MCBSTM32F400 V1.1:
+    Standalone application for MCBSTM32F400 V1.1 board using
+    ST802RT1 Ethernet PHY.
+    Program code is loaded into on-chip flash.
+
+MCBSTM32F400 V1.2:
+    Standalone application for MCBSTM32F400 V1.2 board using
+    KSZ8081RNA Ethernet PHY.
+    Program code is loaded into on-chip flash.
