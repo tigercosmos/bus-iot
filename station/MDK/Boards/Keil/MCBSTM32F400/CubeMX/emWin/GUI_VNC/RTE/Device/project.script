@@ -1,0 +1,4 @@
+load STM32F407IGHx 
+project name STCubeGenerated 
+project toolchain MDK-ARM V5 
+project path C:\Keil\ARM\Pack\Keil\STM32F4xx_DFP\2.6.0\MDK\Boards\Keil\MCBSTM32F400\CubeMX\emWin\GUI_VNC\RTE\Device\STM32F407IGHx\ 

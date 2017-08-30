@@ -1,0 +1,23 @@
+The 'Blinky' project is a simple CMSIS RTOS based example for
+ST 'STM32F429ZI' microcontroller using ST 'STM32F429I-Discovery' Kit.
+Compliant to Cortex Microcontroller Software Interface Standard (CMSIS v2.0).
+
+Example functionality:
+ - Clock Settings:
+   - XTAL    =             8.00 MHz
+   - SYSCLK  =           168.00 MHz
+
+ - LEDs are blinking as running light
+ - blinking is paused while holding down the USER button
+
+
+The Blinky program is available in different targets:
+
+  STM32F429 RAM:      configured for on-chip RAM
+                      (used for target debugging)
+
+  STM32F429 Flash:    configured for on-chip Flash
+                      (used for production or target debugging)
+
+  STM32F429 OPT:      STM32F429 with Flash Options Bytes
+                      (used for programming)
