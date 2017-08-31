@@ -91,7 +91,7 @@ int main(void)
   /* Activate the use of memory device feature */
   WM_SetCreateFlags(WM_CF_MEMDEV);
 
-  //MainTask();
+  MainTask();
 
   /* Infinite loop */
   while (1)
