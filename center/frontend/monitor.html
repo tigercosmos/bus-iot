@@ -99,7 +99,7 @@
             // put bus on the path
             for (let i = 0; i < busNumber - 1; i++) {
                 for (let j = 0; j < stationNumber - 1; j++) {
-                    if (info.order[j] == info.buses[i].bus_position[0]) {
+                    if (info.order[j] == info.buses[i].bus_position[0] && info.order[j+1] == info.buses[i].bus_position[1]) {
                         nodes.push({
                             "id": "bus" + i + "-" + j,
                             "x": (nodes[j].x + nodes[j + 1].x) / 2,
