@@ -102,8 +102,8 @@
                     if (info.order[j] == info.buses[i].bus_position[0]) {
                         nodes.push({
                             "id": "bus" + i + "-" + j,
-                            "x": 0,
-                            "y": j * 100 + 50,
+                            "x": (nodes[j].x + nodes[j + 1].x) / 2,
+                            "y": (nodes[j].y + nodes[j + 1].y) / 2,
                             "label": `${info.buses[i].bus_id}： 空${randN(5)}位`,
                             "style": {
                                 "fill": "red"
