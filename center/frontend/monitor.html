@@ -52,18 +52,19 @@
         // render dropdown
         let menuListString = '';
         busList.forEach((e) => {
-            menuListString += `<li><a href="#" onclick="show(${e.id},${e.name})">${e.name}</a></li>`;
+            menuListString += `<li><a href="#" onclick="show(${e.id},'${e.name}')">${e.name}</a></li>`;
         })
         $(".dropdown-menu").html(menuListString);
         // dropdown item clicked
         function show(id, name) {
-            $.getJSON("https://monitorgetinfo.firebaseio.com/.json", (d) => {
+            $.getJSON(`https://bus-all.firebaseio.com/monitor_bus_info/${id}.json`, (d) => {
                 $("#pathName").html(name + " 路線");
                 draw(d);
             });
         }
         // draw path graph
         function draw(info) {
+            $("#c1").empty();
             let stationNumber = info.station_number;
             let busNumber = info.bus_number;
             let nodes = [];
@@ -78,7 +79,9 @@
                 })
             }
             // back trip
-            for (let i = stationNumber / 2; i < stationNumber; i++) {
+            for (
+                let i = (stationNumber % 2 == 0) ? stationNumber / 2 : parseInt(stationNumber / 2) + 1; i <
+                stationNumber; i++) {
                 nodes.push({
                     "id": "node" + i,
                     "x": 200,
@@ -99,7 +102,8 @@
             // put bus on the path
             for (let i = 0; i < busNumber - 1; i++) {
                 for (let j = 0; j < stationNumber - 1; j++) {
-                    if (info.order[j] == info.buses[i].bus_position[0] && info.order[j+1] == info.buses[i].bus_position[1]) {
+                    if (info.order[j] == info.buses[i].bus_position[0] && info.order[j + 1] == info.buses[i].bus_position[
+                            1]) {
                         nodes.push({
                             "id": "bus" + i + "-" + j,
                             "x": (nodes[j].x + nodes[j + 1].x) / 2,
