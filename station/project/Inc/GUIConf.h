@@ -36,7 +36,7 @@ Purpose     : Configures emWins abilities, fonts etc.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright © 2016 STMicroelectronics International N.V. 
+  * <h2><center>&copy; Copyright ï¿½ 2016 STMicroelectronics International N.V. 
   * All rights reserved.</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without 
@@ -72,7 +72,6 @@ Purpose     : Configures emWins abilities, fonts etc.
   *
   ******************************************************************************
   */ 
-#ifndef GUICONF_H
 #define GUICONF_H
 
 /*********************************************************************
@@ -85,19 +84,13 @@ Purpose     : Configures emWins abilities, fonts etc.
 *
 *       Multi tasking support
 */
-#ifdef OS_SUPPORT
- #define GUI_OS                    (1)  // Compile with multitasking support
-#else
- #define GUI_OS                    (0)
-#endif
+#define GUI_OS                    (1)  // Compile with multitasking support
 
 /*********************************************************************
 *
 *       Configuration of touch support
 */
-#ifndef   GUI_SUPPORT_TOUCH
-  #define GUI_SUPPORT_TOUCH       (1)  // Support touchscreen
-#endif
+#define GUI_SUPPORT_TOUCH       (1)  // Support touchscreen
 
 /*********************************************************************
 *
@@ -114,4 +107,4 @@ Purpose     : Configures emWins abilities, fonts etc.
 #define GUI_SUPPORT_MEMDEV            (1)    /* Memory device package available */
 #define GUI_SUPPORT_DEVICES           (1)    /* Enable use of device pointers */
 
-#endif  /* Avoid multiple inclusion */
+
