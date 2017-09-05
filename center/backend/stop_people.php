@@ -36,33 +36,29 @@ function upload($method,$data,$base_path){
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "$method");
     curl_setopt($ch, CURLOPT_POSTFIELDS,$data);
     //execute curl
-    $temp = curl_exec($ch);
-    //如果要在頁面上看到最後的值 因為之前設定過CURLOPT_RETURNTRANSFER 所以需要將執行後的string 印出echo才有
-    echo $temp;
-    //close curl
+    curl_exec($ch);
     curl_close($ch);
-
 }
 
 
 function download($folder,$file,$path){
-//check dir
-$dirname = "./bus/$folder";
-if (!file_exists($dirname)) {
-    mkdir($dirname, 0777);
-    echo "The directory $dirname was successfully created.\n";
-} else {
-    echo "The directory $dirname exists.\n";
-}
+    //check dir
+    $dirname = "./bus/$folder";
+    if (!file_exists($dirname)) {
+        // Create nested folder
+        mkdir($dirname, 0777, true);
+        echo "The directory $dirname was successfully created.\n";
+    } else {
+        echo "The directory $dirname exists.\n";
+    }
 
-//download gz
-file_put_contents("./bus/$folder/$file", file_get_contents("https://bus-all.firebaseio.com/monitor_bus_info/$path/stations.json"));
-//unzip
-$file_name = "./bus/$folder/$file";
-$out_file_name = $file_name;
-$file=gzfile($file_name);  //get file into an array
-$out_file = fopen($out_file_name, 'w'); 
-$st=implode("",$file);  //turn array into string
-fwrite($out_file,$st);  //write the string in the out_file
-fclose($out_file);
+    //download gz
+    file_put_contents("./bus/$folder/$file", file_get_contents("https://bus-all.firebaseio.com/monitor_bus_info/$path/stations.json"));
+    //unzip
+    $file_name = $out_file_name = "./bus/$folder/$file";
+    $file=gzfile($file_name);  //get file into an array
+    $out_file = fopen($out_file_name, 'w'); 
+    $st=implode("",$file);  //turn array into string
+    fwrite($out_file,$st);  //write the string in the out_file
+    fclose($out_file);
 }

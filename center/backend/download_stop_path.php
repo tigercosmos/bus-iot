@@ -29,7 +29,7 @@ for($i=0;$i<count($stop["BusInfo"]);$i++){
             break;            
         }
     }
-    if($exist==false){
+    if(!$exist){
         for($k=$i;$k<count($stop["BusInfo"]);$k++){
             if($stop["BusInfo"][$k]["nameZh"]==$stop["BusInfo"][$i]["nameZh"]){
                 for($t=0;$t<count($route["BusInfo"]);$t++){
@@ -52,7 +52,7 @@ $data=json_encode($result);
 //check dir
 $dirname = "./bus/station_path";
 if (!file_exists($dirname)) {
-    mkdir($dirname, 0777);
+    mkdir($dirname, 0777, true);
     echo "The directory $dirname was successfully created.\n";
 } 
 else {
