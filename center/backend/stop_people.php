@@ -10,15 +10,8 @@ download($folder,$file,$path);
 $data_content = file_get_contents("./bus/$folder/$file");
 $data = json_decode($data_content,true);
 
-$people=0;
-for($i=0;$i<count($data);$i++){
-    if($data[$i]["id"]==$station){
-        $people=$data[$i]["station_people"];
-        $people++;
-        break;
-    }
-}
-$base_path="https://bus-all.firebaseio.com/monitor_bus_info/$path/stations/$i.json";
+$people=$data[$station]["station_people"]+1;
+$base_path="https://bus-all.firebaseio.com/monitor_bus_info/$path/stations/$station.json";
 $data=json_encode(array("station_people"=>$people));
 upload("PATCH",$data,$base_path);
 $path1="https://bus-all.firebaseio.com/people/$path/$station.json";

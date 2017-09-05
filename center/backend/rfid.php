@@ -19,11 +19,11 @@ download($folder,$file,$path);
 $event_content = file_get_contents("./bus/$folder/$file");
 $event = json_decode($event_content,true);
 //looking for the path id for downloading
-$k=0;
+$event_no=0;
 $path_id=0;
-for(;$k<count($event["BusInfo"]);$k++){
-    if($event["BusInfo"][$k]["CarID"]==$id){
-        $path_id=$event["BusInfo"][$k]["RouteID"];
+for(;$event_no<count($event["BusInfo"]);$event_no++){
+    if($event["BusInfo"][$event_no]["CarID"]==$id){
+        $path_id=$event["BusInfo"][$event_no]["RouteID"];
         break;
     }
 }
@@ -57,22 +57,16 @@ if(!$isRepeated){
     $rfid_data=json_encode(array("$whichOneOnBus"=>$rfid));
     upload("PATCH",$rfid_data,$base_path);
     //station people --
-    for($t=0;$t<count($people);$t++){
-        //looking for stop which the bus locates
-        if($people[$t]["id"]==$event["BusInfo"][$busName]["StopID"]){
-            $number=$people[$t]["station_people"]-1;
-            //上傳到主要資料
-            $path="https://bus-all.firebaseio.com/monitor_bus_info/$path_id/stations/$t.json";
-            $rfid_data=json_encode(array("station_people"=>$number));
-            upload("PATCH",$rfid_data,$path);
-            //備份，讓主要資料更新時可以抓
-            $stop_id=$people[$t]["id"];
-            $path1="https://bus-all.firebaseio.com/people/$path_id/$stop_id.json";
-            $rfid_data=json_encode(array("station_people"=>$number));
-            upload("PATCH",$rfid_data,$path1);
-            break;
-        }
-    }
+    $stop_id=$event["BusInfo"][$event_no]["StopID"];
+    $number=$people[$stop_id]["station_people"]-1;
+    //上傳到主要資料
+    $path="https://bus-all.firebaseio.com/monitor_bus_info/$path_id/stations/$stop_id.json";
+    $rfid_data=json_encode(array("station_people"=>$number));
+    upload("PATCH",$rfid_data,$path);
+    //備份，讓主要資料更新時可以抓
+    $path1="https://bus-all.firebaseio.com/people/$path_id/$stop_id.json";
+    $rfid_data=json_encode(array("station_people"=>$number));
+    upload("PATCH",$rfid_data,$path1);
 }
 
 

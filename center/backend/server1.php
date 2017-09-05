@@ -38,7 +38,7 @@ if (!file_exists($dirname)) {
 } else {
     echo "The directory $dirname exists.\n";
 }
-//download gz
+//download json
 file_put_contents("./bus/$folder/$file", file_get_contents("https://bus-all.firebaseio.com/bus_rfid.json"));
 $rfid_content = file_get_contents("./bus/$folder/$file");
 $rfid = json_decode($rfid_content,true);
@@ -52,12 +52,10 @@ if (!file_exists($dirname)) {
 } else {
     echo "The directory $dirname exists.\n";
 }
-//download gz
+//download json
 file_put_contents("./bus/$folder/$file", file_get_contents("https://bus-all.firebaseio.com/people.json"));
 $people_content = file_get_contents("./bus/$folder/$file");
 $people = json_decode($people_content,true);
-
-
 
 
 /*deal with data*/
@@ -69,8 +67,6 @@ for($i=0;$i<count($route["BusInfo"]);$i++){
 $result=array("path"=>$info);
 $data=json_encode($result);
 patch($base_path,$data);
-
-
 
 /*monitor bus info*/
 $base_path="https://bus-all.firebaseio.com/monitor_bus_info.json";
@@ -190,7 +186,7 @@ for($i=0;$i<count($route["BusInfo"]);$i++){
             $name=$stop["BusInfo"][$t]["nameZh"];
             //先從$people抓目前的人數再上傳
             $people_num=$people[$route["BusInfo"][$i]["pathAttributeId"]][$id]["station_people"];
-            $stop_info[]=array("id"=>$id,"name"=>$name,"station_people"=>$people_num);
+            $stop_info[$id]=array("name"=>$name,"station_people"=>$people_num);
         }
     }
     ksort($order);
@@ -208,8 +204,6 @@ for($i=0;$i<count($route["BusInfo"]);$i++){
 $data=json_encode($bus);
 patch($base_path,$data);
 
-
-
 /*next*/
 $next_stop;
 $next_people;
@@ -217,9 +211,11 @@ $stop_no;
 for($i=0;$i<count($route["BusInfo"]);$i++){
     $next=array();
     for($t=0;$t<count($event["BusInfo"]);$t++){
+        //找該路線下的行駛中的車次
         if($event["BusInfo"][$t]["RouteID"]==$route["BusInfo"][$i]["Id"]){
             /*On duty*/
             if($event["BusInfo"][$t]["DutyStatus"]==1||$event["BusInfo"][$t]["DutyStatus"]==0){
+                //order the stops on the certain path
                 $order=stop_id_order($event["BusInfo"][$t]["RouteID"],$stop,$route); 
                 /*去程*/
                 if($event["BusInfo"][$t]["GoBack"]==0){
@@ -240,16 +236,15 @@ for($i=0;$i<count($route["BusInfo"]);$i++){
                         if($people[$route["BusInfo"][$i]["pathAttributeId"]][$next_stop]["station_people"]!=0){
                             $next_people=true;
                             $next[$event["BusInfo"][$t]["CarID"]]=array("next"=>$next_people);
-                            break;
                         }   
                         else{
                             $next_people=false;
                             $next[$event["BusInfo"][$t]["CarID"]]=array("next"=>$next_people);
-                            break;
                         }     
                     }
-                /*離站*/
+                    /*離站*/
                     elseif($event["BusInfo"][$t]["CarOnStop"]==1){
+                        //末站
                         if($stop_no==count($order)-1){
                             $next_people=false;
                             $next[$event["BusInfo"][$t]["CarID"]]=array("next"=>$next_people);
@@ -259,12 +254,10 @@ for($i=0;$i<count($route["BusInfo"]);$i++){
                                 if($people[$route["BusInfo"][$i]["pathAttributeId"]][$next_stop]["station_people"]!=0){
                                     $next_people=true;
                                     $next[$event["BusInfo"][$t]["CarID"]]=array("next"=>$next_people);
-                                    break;
                                 }   
                                 else{
                                     $next_people=false;
                                     $next[$event["BusInfo"][$t]["CarID"]]=array("next"=>$next_people);
-                                    break;
                                 } 
                         }
                     }
@@ -288,32 +281,28 @@ for($i=0;$i<count($route["BusInfo"]);$i++){
                                 if($people[$route["BusInfo"][$i]["pathAttributeId"]][$next_stop]["station_people"]!=0){
                                     $next_people=true;
                                     $next[$event["BusInfo"][$t]["CarID"]]=array("next"=>$next_people);
-                                    break;
                                 }   
                                 else{
                                     $next_people=false;
                                     $next[$event["BusInfo"][$t]["CarID"]]=array("next"=>$next_people);
-                                    break;
                                 } 
                     }
                     /*離站*/
                     elseif($event["BusInfo"][$t]["CarOnStop"]==1){
+                        //末站
                         if($stop_no==count($order)-1){
-                        $next_people=false;
-                        $next[$event["BusInfo"][$t]["CarID"]]=array("next"=>$next_people);
+                            $next_people=false;
+                            $next[$event["BusInfo"][$t]["CarID"]]=array("next"=>$next_people);
                         }
                         else{
                             $next_stop=$order[$stop_no+1];
-                            if($next_stop==null){echo "error ";}
                             if($people[$route["BusInfo"][$i]["pathAttributeId"]][$next_stop]["station_people"]!=0){
                                     $next_people=true;
                                     $next[$event["BusInfo"][$t]["CarID"]]=array("next"=>$next_people);
-                                    break;
                             }
                             else{
                                 $next_people=false;
                                 $next[$event["BusInfo"][$t]["CarID"]]=array("next"=>$next_people);
-                                break;
                             }   
                         }      
                     }
@@ -327,19 +316,19 @@ $data=json_encode(array("next"=>$info));
 $path="https://bus-all.firebaseio.com/.json";
 patch($path,$data);
 
-
-
 /*stop bus info*/
 $estimate_time;
+//一條路線一條路線找資料
 for($i=0;$i<count($route["BusInfo"]);$i++){
     $next_bus=array();
+    //一個站一個站找資料
     for($t=0;$t<count($stop["BusInfo"]);$t++){
         $no;
         $car_order=array();
         $car_id=array();
         if($stop["BusInfo"][$t]["routeId"]==$route["BusInfo"][$i]["Id"]){
+            //紀錄該路線上的站
             $order=stop_id_order($route["BusInfo"][$i]["pathAttributeId"],$stop,$route);
-            //print_r($order);
             //estimate time
             for($k=0;$k<count($time["BusInfo"]);$k++){
                 if($time["BusInfo"][$k]["StopID"]==$stop["BusInfo"][$t]["Id"]){
@@ -347,20 +336,21 @@ for($i=0;$i<count($route["BusInfo"]);$i++){
                     break;
                 }
             }
-            //echo "time: $estimate_time \n";
             //looking for the next bus id
-            //looking for all the buses on duty on the certain path and recording their position
             for($x=0;$x<count($event["BusInfo"]);$x++){
+                //looking for all the buses on duty on the certain path
                 if($event["BusInfo"][$x]["RouteID"]==$route["BusInfo"][$i]["Id"]&&$event["BusInfo"][$x]["DutyStatus"]!=2){
-                    for($y=0;$y<count($order);$y++){
-                        if($order[$y]==$event["BusInfo"][$x]["StopID"]){
-                            array_push($car_order,$y);
+                    for($car_position=0;$car_position<count($order);$car_position++){
+                        if($order[$car_position]==$event["BusInfo"][$x]["StopID"]){
+                            //recording their position and the bus id
+                            array_push($car_order,$car_position);
                             array_push($car_id,$event["BusInfo"][$x]["CarID"]);
                             break;
                         }
                     }
                 }
             }
+            //if there is no infomation being recorded, which means there is no bus now
             if($car_id==null){
                 $next_bus="There is no bus on the path";
                 break;
@@ -373,8 +363,7 @@ for($i=0;$i<count($route["BusInfo"]);$i++){
                         break;
                     }
                 }
-                //echo "the stop no: $no \n";
-                //looking for the minimum delta of order
+                //looking for the minimum delta of order to determine which is the next bus
                 $delta=1000;
                 $bus_no=0;
                 for($z=0;$z<count($car_order);$z++){
@@ -383,10 +372,8 @@ for($i=0;$i<count($route["BusInfo"]);$i++){
                         $bus_no=$z;
                     }
                 }
-                //echo "car location: $bus_no \n";
                 //looking for the next bus info
                 $bus_id=$car_id[$bus_no];
-                //echo "car id: $bus_id \n";
                 $type="";
                 for($a=0;$a<count($event["BusInfo"]);$a++){
                     if($event["BusInfo"][$a]["CarID"]==$bus_id)
@@ -398,6 +385,7 @@ for($i=0;$i<count($route["BusInfo"]);$i++){
                         break;
                     }
                 }
+                //rfid
                 $car_people=count($rfid[$bus_id])-1;
                 //all
                 $next_bus[$stop["BusInfo"][$t]["Id"]]=array("estimate_time"=>$estimate_time,"next_bus_type"=>$type,"next_bus_people"=>$car_people);
@@ -410,10 +398,6 @@ for($i=0;$i<count($route["BusInfo"]);$i++){
 $data=json_encode($info);
 $path="https://bus-all.firebaseio.com/stop_bus_info.json";
 patch($path,$data);
-
-
-
-
 
 
 function patch($base_path,$data){
@@ -434,7 +418,6 @@ function patch($base_path,$data){
     curl_close($ch);
 
 }
-
 
 function stop_name_order($route_id,$stop,$route){
     for($i=0;$i<count($route["BusInfo"]);$i++){
@@ -457,8 +440,6 @@ function stop_name_order($route_id,$stop,$route){
     return $reorder;
 }
 
-
-
 function stop_id_order($route_id,$stop,$route){
     for($i=0;$i<count($route["BusInfo"]);$i++){
         if($route["BusInfo"][$i]["pathAttributeId"]==$route_id){
@@ -479,9 +460,6 @@ function stop_id_order($route_id,$stop,$route){
     $reorder=array_combine($no,$order);
     return $reorder;
 }
-
-
-
 
 function download($folder,$file,$path){
 //check dir
@@ -504,5 +482,4 @@ $st=implode("",$file);  //turn array into string
 fwrite($out_file,$st);  //write the string in the out_file
 fclose($out_file);
 }
-
-
+?>
