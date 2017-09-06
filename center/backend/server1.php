@@ -208,6 +208,7 @@ patch($base_path,$data);
 $next_stop;
 $next_people;
 $stop_no;
+$info=array();
 for($i=0;$i<count($route["BusInfo"]);$i++){
     $next=array();
     for($t=0;$t<count($event["BusInfo"]);$t++){
@@ -318,6 +319,7 @@ patch($path,$data);
 
 /*stop bus info*/
 $estimate_time;
+$info=array();
 //一條路線一條路線找資料
 for($i=0;$i<count($route["BusInfo"]);$i++){
     $next_bus=array();
