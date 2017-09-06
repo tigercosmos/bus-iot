@@ -1,0 +1,4 @@
+[ui]
+ignore.local = .hg/hgignore
+[paths]
+default = http://mbed.org/teams/ST/code/BSP_DISCO_F469NI/
