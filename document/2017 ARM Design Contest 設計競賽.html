@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>
+        2017 ARM Design Contest 設計競賽 - HackMD
+    </title>
+    <link rel="icon" type="image/png" href="https://hackmd.io/favicon.png">
+    <link rel="apple-touch-icon" href="https://hackmd.io/apple-touch-icon.png">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css" integrity="sha256-3iu9jgsy9TpTwXKb7bNQzqWekRX7pPK+2OLj3R922fo=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/octicons/3.5.0/octicons.min.css" integrity="sha256-QiWfLIsCT02Sdwkogf6YMiQlj4NE84MKkzEMkZnMGdg=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.1/themes/prism.min.css" integrity="sha256-vtR0hSWRc3Tb26iuN2oZHt3KRUomwTufNIf5/4oeCyg=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/styles/github-gist.min.css" integrity="sha256-tAflq+ymku3Khs+I/WcAneIlafYgDiOQ9stIHH985Wo=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/emojify.js/1.1.0/css/basic/emojify.min.css" integrity="sha256-UOrvMOsSDSrW6szVLe8ZDZezBxh5IoIfgTwdNDgTjiU=" crossorigin="anonymous" />
+    <style>
+        @import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400italic,600,600italic,300italic,300|Source+Serif+Pro|Source+Code+Pro:400,300,500&subset=latin,latin-ext);.markdown-body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif;font-size:16px;line-height:1.5;word-wrap:break-word}.markdown-body:after,.markdown-body:before{display:table;content:""}.markdown-body:after{clear:both}.markdown-body>:first-child{margin-top:0!important}.markdown-body>:last-child{margin-bottom:0!important}.markdown-body a:not([href]){color:inherit;text-decoration:none}.markdown-body .absent{color:#c00}.markdown-body .anchor{float:left;padding-right:4px;margin-left:-20px;line-height:1}.markdown-body .anchor:focus{outline:none}.markdown-body blockquote,.markdown-body dl,.markdown-body ol,.markdown-body p,.markdown-body pre,.markdown-body table,.markdown-body ul{margin-top:0;margin-bottom:16px}.markdown-body hr{height:.25em;padding:0;margin:24px 0;background-color:#e7e7e7;border:0}.markdown-body blockquote{padding:0 1em;color:#777;border-left:.25em solid #ddd}.markdown-body blockquote>:first-child{margin-top:0}.markdown-body blockquote>:last-child{margin-bottom:0}.markdown-body .loweralpha{list-style-type:lower-alpha}.markdown-body h1,.markdown-body h2,.markdown-body h3,.markdown-body h4,.markdown-body h5,.markdown-body h6{margin-top:24px;margin-bottom:16px;font-weight:600;line-height:1.25}.markdown-body h1 .octicon-link,.markdown-body h2 .octicon-link,.markdown-body h3 .octicon-link,.markdown-body h4 .octicon-link,.markdown-body h5 .octicon-link,.markdown-body h6 .octicon-link{color:#000;vertical-align:middle;visibility:hidden}.markdown-body h1:hover .anchor,.markdown-body h2:hover .anchor,.markdown-body h3:hover .anchor,.markdown-body h4:hover .anchor,.markdown-body h5:hover .anchor,.markdown-body h6:hover .anchor{text-decoration:none}.markdown-body h1:hover .anchor .octicon-link,.markdown-body h2:hover .anchor .octicon-link,.markdown-body h3:hover .anchor .octicon-link,.markdown-body h4:hover .anchor .octicon-link,.markdown-body h5:hover .anchor .octicon-link,.markdown-body h6:hover .anchor .octicon-link{visibility:visible}.markdown-body h1 code,.markdown-body h1 tt,.markdown-body h2 code,.markdown-body h2 tt,.markdown-body h3 code,.markdown-body h3 tt,.markdown-body h4 code,.markdown-body h4 tt,.markdown-body h5 code,.markdown-body h5 tt,.markdown-body h6 code,.markdown-body h6 tt{font-size:inherit}.markdown-body h1{font-size:2em}.markdown-body h1,.markdown-body h2{padding-bottom:.3em;border-bottom:1px solid #eee}.markdown-body h2{font-size:1.5em}.markdown-body h3{font-size:1.25em}.markdown-body h4{font-size:1em}.markdown-body h5{font-size:.875em}.markdown-body h6{font-size:.85em;color:#777}.markdown-body ol,.markdown-body ul{padding-left:2em}.markdown-body ol.no-list,.markdown-body ul.no-list{padding:0;list-style-type:none}.markdown-body ol ol,.markdown-body ol ul,.markdown-body ul ol,.markdown-body ul ul{margin-top:0;margin-bottom:0}.markdown-body li>p{margin-top:16px}.markdown-body li+li{margin-top:.25em}.markdown-body dl{padding:0}.markdown-body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:700}.markdown-body dl dd{padding:0 16px;margin-bottom:16px}.markdown-body table{display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}.markdown-body table th{font-weight:700}.markdown-body table td,.markdown-body table th{padding:6px 13px;border:1px solid #ddd}.markdown-body table tr{background-color:#fff;border-top:1px solid #ccc}.markdown-body table tr:nth-child(2n){background-color:#f8f8f8}.markdown-body img{max-width:100%;box-sizing:content-box;background-color:#fff}.markdown-body img[align=right]{padding-left:20px}.markdown-body img[align=left]{padding-right:20px}.markdown-body .emoji{max-width:none;vertical-align:text-top;background-color:transparent}.markdown-body span.frame{display:block;overflow:hidden}.markdown-body span.frame>span{display:block;float:left;width:auto;padding:7px;margin:13px 0 0;overflow:hidden;border:1px solid #ddd}.markdown-body span.frame span img{display:block;float:left}.markdown-body span.frame span span{display:block;padding:5px 0 0;clear:both;color:#333}.markdown-body span.align-center{display:block;overflow:hidden;clear:both}.markdown-body span.align-center>span{display:block;margin:13px auto 0;overflow:hidden;text-align:center}.markdown-body span.align-center span img{margin:0 auto;text-align:center}.markdown-body span.align-right{display:block;overflow:hidden;clear:both}.markdown-body span.align-right>span{display:block;margin:13px 0 0;overflow:hidden;text-align:right}.markdown-body span.align-right span img{margin:0;text-align:right}.markdown-body span.float-left{display:block;float:left;margin-right:13px;overflow:hidden}.markdown-body span.float-left span{margin:13px 0 0}.markdown-body span.float-right{display:block;float:right;margin-left:13px;overflow:hidden}.markdown-body span.float-right>span{display:block;margin:13px auto 0;overflow:hidden;text-align:right}.markdown-body code,.markdown-body tt{padding:0;padding-top:.2em;padding-bottom:.2em;margin:0;font-size:85%;background-color:rgba(0,0,0,.04);border-radius:3px}.markdown-body code:after,.markdown-body code:before,.markdown-body tt:after,.markdown-body tt:before{letter-spacing:-.2em;content:"\A0"}.markdown-body code br,.markdown-body tt br{display:none}.markdown-body del code{text-decoration:inherit}.markdown-body pre{word-wrap:normal}.markdown-body pre>code{padding:0;margin:0;font-size:100%;word-break:normal;white-space:pre;background:transparent;border:0}.markdown-body .highlight{margin-bottom:16px}.markdown-body .highlight pre{margin-bottom:0;word-break:normal}.markdown-body .highlight pre,.markdown-body pre{padding:16px;overflow:auto;font-size:85%;line-height:1.45;background-color:#f7f7f7;border-radius:3px}.markdown-body pre code,.markdown-body pre tt{display:inline;max-width:auto;padding:0;margin:0;overflow:visible;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}.markdown-body pre code:after,.markdown-body pre code:before,.markdown-body pre tt:after,.markdown-body pre tt:before{content:normal}.markdown-body .csv-data td,.markdown-body .csv-data th{padding:5px;overflow:hidden;font-size:12px;line-height:1;text-align:left;white-space:nowrap}.markdown-body .csv-data .blob-line-num{padding:10px 8px 9px;text-align:right;background:#fff;border:0}.markdown-body .csv-data tr{border-top:0}.markdown-body .csv-data th{font-weight:700;background:#f8f8f8;border-top:0}.markdown-body kbd{display:inline-block;padding:3px 5px;font-size:11px;line-height:10px;color:#555;vertical-align:middle;background-color:#fcfcfc;border:1px solid #ccc;border-bottom-color:#bbb;border-radius:3px;box-shadow:inset 0 -1px 0 #bbb}.news .alert .markdown-body blockquote{padding:0 0 0 40px;border:0 none}.activity-tab .news .alert .commits,.activity-tab .news .markdown-body blockquote{padding-left:0}.task-list-item{list-style-type:none}.task-list-item label{font-weight:400}.task-list-item.enabled label{cursor:pointer}.task-list-item+.task-list-item{margin-top:3px}.task-list-item-checkbox{float:left;margin:.31em 0 .2em -1.3em!important;vertical-align:middle;cursor:default!important}.markdown-body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Helvetica,Arial,sans-serif;padding-top:40px;padding-bottom:40px;max-width:758px;overflow:visible!important}.markdown-body pre{border:inherit!important}.markdown-body code{color:inherit!important}.markdown-body pre code .wrapper{display:-moz-inline-flex;display:-ms-inline-flex;display:-o-inline-flex;display:inline-flex}.markdown-body pre code .gutter{float:left;overflow:hidden;-webkit-user-select:none;user-select:none}.markdown-body pre code .gutter.linenumber{text-align:right;position:relative;display:inline-block;cursor:default;z-index:4;padding:0 8px 0 0;min-width:20px;box-sizing:content-box;color:#afafaf!important;border-right:3px solid #6ce26c!important}.markdown-body pre code .gutter.linenumber>span:before{content:attr(data-linenumber)}.markdown-body pre code .code{float:left;margin:0 0 0 16px}.markdown-body .gist .line-numbers{border-left:none;border-top:none;border-bottom:none}.markdown-body .gist .line-data{border:none}.markdown-body .gist table{border-spacing:0;border-collapse:inherit!important}.markdown-body code[data-gist-id]{background:none;padding:0}.markdown-body code[data-gist-id]:after,.markdown-body code[data-gist-id]:before{content:""}.markdown-body code[data-gist-id] .blob-num{border:unset}.markdown-body code[data-gist-id] table{overflow:unset;margin-bottom:unset}.markdown-body code[data-gist-id] table tr{background:unset}.markdown-body[dir=rtl] pre{direction:ltr}.markdown-body[dir=rtl] code{direction:ltr;unicode-bidi:embed}.markdown-body .alert>p{margin-bottom:0}.markdown-body pre.abc,.markdown-body pre.flow-chart,.markdown-body pre.graphviz,.markdown-body pre.mermaid,.markdown-body pre.sequence-diagram{text-align:center;background-color:inherit;border-radius:0;white-space:inherit}.markdown-body pre.abc>code,.markdown-body pre.flow-chart>code,.markdown-body pre.graphviz>code,.markdown-body pre.mermaid>code,.markdown-body pre.sequence-diagram>code{text-align:left}.markdown-body pre.abc>svg,.markdown-body pre.flow-chart>svg,.markdown-body pre.graphviz>svg,.markdown-body pre.mermaid>svg,.markdown-body pre.sequence-diagram>svg{max-width:100%;height:100%}.markdown-body pre>code.wrap{white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space:-o-pre-wrap;word-wrap:break-word}.markdown-body .alert>p,.markdown-body .alert>ul{margin-bottom:0}.vimeo,.youtube{cursor:pointer;display:table;text-align:center;background-position:50%;background-repeat:no-repeat;background-size:contain;background-color:#000;overflow:hidden}.vimeo,.youtube{position:relative;width:100%}.youtube{padding-bottom:56.25%}.vimeo img{width:100%;object-fit:contain;z-index:0}.youtube img{object-fit:cover;z-index:0}.vimeo iframe,.youtube iframe,.youtube img{width:100%;height:100%;position:absolute;top:0;left:0}.vimeo iframe,.youtube iframe{vertical-align:middle;z-index:1}.vimeo .icon,.youtube .icon{position:absolute;height:auto;width:auto;top:50%;left:50%;transform:translate(-50%,-50%);color:#fff;opacity:.3;transition:opacity .2s;z-index:0}.vimeo:hover .icon,.youtube:hover .icon{opacity:.6;transition:opacity .2s}.slideshare .inner,.speakerdeck .inner{position:relative;width:100%}.slideshare .inner iframe,.speakerdeck .inner iframe{position:absolute;top:0;bottom:0;left:0;right:0;width:100%;height:100%}.MJX_Assistive_MathML{display:none}.ui-infobar{position:relative;z-index:2;max-width:758px;margin-top:25px;margin-bottom:-25px;color:#777}.ui-toc{position:fixed;bottom:20px;z-index:10000}.ui-toc-label{opacity:.3;background-color:#ccc;border:none;transition:opacity .2s}.ui-toc .open .ui-toc-label{opacity:1;color:#fff;transition:opacity .2s}.ui-toc-label:focus{opacity:.3;background-color:#ccc;color:#000}.ui-toc-label:hover{opacity:1;background-color:#ccc;transition:opacity .2s}.ui-toc-dropdown{margin-top:23px;margin-bottom:20px;padding-left:10px;padding-right:10px;max-width:45vw;width:25vw;max-height:70vh;overflow:auto;text-align:inherit}.ui-toc-dropdown>.toc{max-height:calc(70vh - 100px);overflow:auto}.ui-toc-dropdown[dir=rtl] .nav{padding-right:0;letter-spacing:.0029em}.ui-toc-dropdown a{overflow:hidden;text-overflow:ellipsis;white-space:pre}.ui-toc-dropdown .nav>li>a{display:block;padding:4px 20px;font-size:13px;font-weight:500;color:#767676}.ui-toc-dropdown .nav>li:first-child:last-child > ul,.ui-toc-dropdown .toc.expand ul{display:block}.ui-toc-dropdown .nav>li>a:focus,.ui-toc-dropdown .nav>li>a:hover{padding-left:19px;color:#000;text-decoration:none;background-color:transparent;border-left:1px solid #000}.ui-toc-dropdown[dir=rtl] .nav>li>a:focus,.ui-toc-dropdown[dir=rtl] .nav>li>a:hover{padding-right:19px;border-left:none;border-right:1px solid #000}.ui-toc-dropdown .nav>.active:focus>a,.ui-toc-dropdown .nav>.active:hover>a,.ui-toc-dropdown .nav>.active>a{padding-left:18px;font-weight:700;color:#000;background-color:transparent;border-left:2px solid #000}.ui-toc-dropdown[dir=rtl] .nav>.active:focus>a,.ui-toc-dropdown[dir=rtl] .nav>.active:hover>a,.ui-toc-dropdown[dir=rtl] .nav>.active>a{padding-right:18px;border-left:none;border-right:2px solid #000}.ui-toc-dropdown .nav .nav{display:none;padding-bottom:10px}.ui-toc-dropdown .nav>.active>ul{display:block}.ui-toc-dropdown .nav .nav>li>a{padding-top:1px;padding-bottom:1px;padding-left:30px;font-size:12px;font-weight:400}.ui-toc-dropdown[dir=rtl] .nav .nav>li>a{padding-right:30px}.ui-toc-dropdown .nav .nav>li>ul>li>a{padding-top:1px;padding-bottom:1px;padding-left:40px;font-size:12px;font-weight:400}.ui-toc-dropdown[dir=rtl] .nav .nav>li>ul>li>a{padding-right:40px}.ui-toc-dropdown .nav .nav>li>a:focus,.ui-toc-dropdown .nav .nav>li>a:hover{padding-left:29px}.ui-toc-dropdown[dir=rtl] .nav .nav>li>a:focus,.ui-toc-dropdown[dir=rtl] .nav .nav>li>a:hover{padding-right:29px}.ui-toc-dropdown .nav .nav>li>ul>li>a:focus,.ui-toc-dropdown .nav .nav>li>ul>li>a:hover{padding-left:39px}.ui-toc-dropdown[dir=rtl] .nav .nav>li>ul>li>a:focus,.ui-toc-dropdown[dir=rtl] .nav .nav>li>ul>li>a:hover{padding-right:39px}.ui-toc-dropdown .nav .nav>.active:focus>a,.ui-toc-dropdown .nav .nav>.active:hover>a,.ui-toc-dropdown .nav .nav>.active>a{padding-left:28px;font-weight:500}.ui-toc-dropdown[dir=rtl] .nav .nav>.active:focus>a,.ui-toc-dropdown[dir=rtl] .nav .nav>.active:hover>a,.ui-toc-dropdown[dir=rtl] .nav .nav>.active>a{padding-right:28px}.ui-toc-dropdown .nav .nav>.active>.nav>.active:focus>a,.ui-toc-dropdown .nav .nav>.active>.nav>.active:hover>a,.ui-toc-dropdown .nav .nav>.active>.nav>.active>a{padding-left:38px;font-weight:500}.ui-toc-dropdown[dir=rtl] .nav .nav>.active>.nav>.active:focus>a,.ui-toc-dropdown[dir=rtl] .nav .nav>.active>.nav>.active:hover>a,.ui-toc-dropdown[dir=rtl] .nav .nav>.active>.nav>.active>a{padding-right:38px}.markdown-body[lang^=ja]{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Helvetica,Arial,Hiragino Kaku Gothic Pro,\\30D2\30E9\30AE\30CE\89D2\30B4 Pro W3,Osaka,Meiryo,\\30E1\30A4\30EA\30AA,MS Gothic,"\FF2D\FF33   \30B4\30B7\30C3\30AF",sans-serif}.ui-toc-dropdown[lang^=ja]{font-family:Source Sans Pro,Helvetica,Arial,Meiryo UI,MS PGothic,"\FF2D\FF33   \FF30\30B4\30B7\30C3\30AF",sans-serif}.markdown-body[lang=zh-tw]{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Helvetica,Arial,PingFang TC,Microsoft JhengHei,\\5FAE\8EDF\6B63\9ED1,sans-serif}.ui-toc-dropdown[lang=zh-tw]{font-family:Source Sans Pro,Helvetica,Arial,Microsoft JhengHei UI,\\5FAE\8EDF\6B63\9ED1UI,sans-serif}.markdown-body[lang=zh-cn]{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Helvetica,Arial,PingFang SC,Microsoft YaHei,\\5FAE\8F6F\96C5\9ED1,sans-serif}.ui-toc-dropdown[lang=zh-cn]{font-family:Source Sans Pro,Helvetica,Arial,Microsoft YaHei UI,\\5FAE\8F6F\96C5\9ED1UI,sans-serif}.ui-affix-toc{position:fixed;top:0;max-width:15vw;max-height:70vh;overflow:auto}.back-to-top,.expand-toggle,.go-to-bottom{display:block;padding:4px 10px;margin-top:10px;margin-left:10px;font-size:12px;font-weight:500;color:#999}.back-to-top:focus,.back-to-top:hover,.expand-toggle:focus,.expand-toggle:hover,.go-to-bottom:focus,.go-to-bottom:hover{color:#563d7c;text-decoration:none}.back-to-top,.go-to-bottom{margin-top:0}.ui-user-icon{width:20px;height:20px;display:block;border-radius:3px;margin-top:2px;margin-bottom:2px;margin-right:5px;background-position:50%;background-repeat:no-repeat;background-size:contain}.ui-user-icon.small{width:18px;height:18px;display:inline-block;vertical-align:middle;margin:0 0 .2em}small span{line-height:22px}small .dropdown{display:inline-block}small .dropdown a:focus,small .dropdown a:hover{text-decoration:none}.unselectable{-moz-user-select:none;-webkit-user-select:none;-o-user-select:none;user-select:none}@media print{blockquote,div,img,pre,table{page-break-inside:avoid!important}a[href]:after{font-size:12px!important}}.markdown-body.slides{position:relative;z-index:1;color:#222}.markdown-body.slides:before{content:"";display:block;position:absolute;top:0;left:0;right:0;bottom:0;z-index:-1;background-color:currentColor;box-shadow:0 0 0 50vw}.markdown-body.slides section[data-markdown]{position:relative;margin-bottom:1.5em;background-color:#fff;text-align:center}.markdown-body.slides section[data-markdown] code{text-align:left}.markdown-body.slides section[data-markdown]:before{content:"";display:block;padding-bottom:56.23%}.markdown-body.slides section[data-markdown]>div:first-child{position:absolute;top:50%;left:1em;right:1em;transform:translateY(-50%);max-height:100%;overflow:hidden}.markdown-body.slides section[data-markdown]>ul{display:inline-block}.markdown-body.slides>section>section+section:after{content:"";position:absolute;top:-1.5em;right:1em;height:1.5em;border:3px solid #777}body{font-smoothing:subpixel-antialiased!important;-webkit-font-smoothing:subpixel-antialiased!important;-moz-osx-font-smoothing:auto!important;text-shadow:0 0 1em transparent,1px 1px 1.2px rgba(0,0,0,.004);-webkit-overflow-scrolling:touch;font-family:Source Sans Pro,Helvetica,Arial,sans-serif;letter-spacing:.025em}.focus,:focus{outline:none!important}::-moz-focus-inner{border:0!important}body.modal-open{overflow-y:auto;padding-right:0!important}
+    </style>
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    	<script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js" integrity="sha256-3Jy/GbSLrg0o9y5Z5n1uw0qxZECH7C6OQpVBgNFYa0g=" crossorigin="anonymous"></script>
+    	<script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js" integrity="sha256-g6iAfvZp+nDQ2TdTR/VVKJf3bGro4ub5fvWSWVRi2NE=" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.9/es5-shim.min.js" integrity="sha256-8E4Is26QH0bD52WoQpcB+R/tcWQtpzlCojrybUd7Mxo=" crossorigin="anonymous"></script>
+    <![endif]-->
+</head>
+
+<body>
+    <div id="doc" class="markdown-body container-fluid"><h1 id="2017-arm-design-contest-設計競賽"><a class="anchor hidden-xs" href="#2017-arm-design-contest-設計競賽" title="2017-arm-design-contest-設計競賽"><span class="octicon octicon-link"></span></a>2017 ARM Design Contest 設計競賽</h1><h1 id="初-賽-報-告"><a class="anchor hidden-xs" href="#初-賽-報-告" title="初-賽-報-告"><span class="octicon octicon-link"></span></a>初 賽 報 告</h1><hr><h3 id="作品名稱：公車、公車站與中央監控中心的物聯網系統"><a class="anchor hidden-xs" href="#作品名稱：公車、公車站與中央監控中心的物聯網系統" title="作品名稱：公車、公車站與中央監控中心的物聯網系統"><span class="octicon octicon-link"></span></a>作品名稱：公車、公車站與中央監控中心的物聯網系統</h3><h3 id="隊名：騰雲的微中子"><a class="anchor hidden-xs" href="#隊名：騰雲的微中子" title="隊名：騰雲的微中子"><span class="octicon octicon-link"></span></a>隊名：騰雲的微中子</h3><h3 id="中華民國-106-年-9-月-8-日"><a class="anchor hidden-xs" href="#中華民國-106-年-9-月-8-日" title="中華民國-106-年-9-月-8-日"><span class="octicon octicon-link"></span></a>中華民國 106 年 9 月 8 日</h3><hr><h2 id="1、摘要"><a class="anchor hidden-xs" href="#1、摘要" title="1、摘要"><span class="octicon octicon-link"></span></a>1、摘要</h2><p>本作品以公車站裝置、公車上裝置以及中央監控伺服器，以這三項設備互相構成一個公車與公車站的物聯網系統。公車上裝置藉由 RFID 技術，可以記錄每位乘客的上下車，並可以以此估算出公車目前的空位數；公車站裝置讓想要搭乘的民眾可以登記要搭車，此資訊會回傳到中央伺服器，公車上裝置可以藉由公車自身定位和下一站的車站資訊，來讓司機知道下一站是否有乘客要上車。所有的公車和車站的裝置皆透過中央伺服器連結，並與政府資料串連，達成一個公車與車站的物聯網監控系統。</p><h2 id="2、作品功能與實用性"><a class="anchor hidden-xs" href="#2、作品功能與實用性" title="2、作品功能與實用性"><span class="octicon octicon-link"></span></a>2、作品功能與實用性</h2><p>在現代這個提倡環保、減碳的社會，公車、捷運是許多人通勤的重要工具，在 105 年台北市交通統計中，平均每日公車營運數量高達 3159 輛，而平均每車每日的搭乘人次則是 411 人，大眾運輸與人們顯然已密不可分。然而，公車肇事事件卻屢見不鮮。其中，近十年來，公車因靠站疏忽而肇事的事件，多達上百件。我們希望能改善現狀，並讓搭公車的體驗更加美好。</p><h3 id="改善智慧生活"><a class="anchor hidden-xs" href="#改善智慧生活" title="改善智慧生活"><span class="octicon octicon-link"></span></a>改善智慧生活</h3><p>本系統改善了現有的架構資訊呈現不足，我們補足了公車站即時等待人數、公車座位空位數量，並結合現有台北市公開數據中的公車、公車站等資訊，重新讓所有數據彼此連結。</p><p>以往乘客可能想要搭乘某班公車，但可能公車站人數太多，公車站剛好停了好幾班公車，或是公車司機一時恍神，造成乘客眼巴巴地望著公車離去，心中滿滿的焦急與無奈，卻一籌莫展，原本計畫好的行程就此打亂，習慣的生活步調無法跟上。</p><p>但事實上這個情境是可以避免的。公車司機僅需稍微移動視線留意我們公車物聯網系統中提供的資訊，就可以輕易地知道下一站有人想上車，甚至可以知道到底有多少人。</p><p>如此一來即便公車站人數再多、公車停靠數量好幾台，公車司機也不會再遺漏任何一位想搭車的乘客，無乘客想搭乘的公車更可以減少時間並不佔用公車站空間；乘客也能更悠閒思考想搭的公車，知悉每個公車的到達時間、座位數及乘客人數，在搭車時能智慧地輕易選擇自己偏好的公車。在車次人數眾多的公車站，這些細節相當重要，每台公車的停靠及每位乘客的上下車都是讓公眾運輸更加便捷的關鍵。</p><h3 id="結合未來趨勢"><a class="anchor hidden-xs" href="#結合未來趨勢" title="結合未來趨勢"><span class="octicon octicon-link"></span></a>結合未來趨勢</h3><p>我們可以預料未來的交通系統更加自動化與人工智慧化，當一切都是數據紀錄在網路中，經過大數據分析和人工智慧的技術實踐，世界絕對會變得很不一樣。</p><p>例如我們將車站有多少等待乘客以及公車上有多少空位數量納入大數據的一環，未來的城市監控 AI 便可以以此做決定，如果公車空位都滿了，或是每個車站都有很多人在等待，可能就要加派公車班次。又例如，平常深夜都有公車在路上跑，目的是為了服務深夜才能回家的上班族，但是通常深夜只會有少數幾人在等待公車，有時甚至沒有，如果某一天剛好深夜整條路線都沒人要搭車，深夜班次就可以減少，不僅替公車營運省錢，也非常環保。</p><p>此外，雖然此專案是針對公車的物聯網系統，但是當我們可以更精確掌握某個乘客在某個時間點搭車，某個車站會上車、會下車，並結合其他交通工具得到的數據，例如火車、捷運、飛機，當一切都聯繫在一起，我們可以進行非常深入的社會行為學分析，並以理論來實踐更完善的智慧城市，使得科技進步不斷加速，人們生活達到最高理想。</p><h2 id="3、設計創意性"><a class="anchor hidden-xs" href="#3、設計創意性" title="3、設計創意性"><span class="octicon octicon-link"></span></a>3、設計創意性</h2><h3 id="緣起"><a class="anchor hidden-xs" href="#緣起" title="緣起"><span class="octicon octicon-link"></span></a>緣起</h3><p>目前生活中已有智慧公車亭及等公車 app，且廣泛使用，但智慧公車亭及等公車 app 兩者皆僅能顯示到站時間，等車乘客對於車上人數及座位數並不知曉，無法確定自己是否適合搭乘這班公車(尤其是身心或行動不便的乘客)，滿心期盼等待，當公車來到站牌前，才發現車上早已擠滿了人，這時前面的等車時間毫無意義，面臨無奈的窘境。</p><h3 id="最初想法"><a class="anchor hidden-xs" href="#最初想法" title="最初想法"><span class="octicon octicon-link"></span></a>最初想法</h3><p>因此，第一個想法提出，便是紀錄車上人數並同時顯示於智慧公車亭，可讓乘客獲得更多資訊並視情況做出更有利的選擇。悠遊卡辨識本就利用 RFID 系統，假使上下車都要刷卡的情況，就能掌握車上確切人數，在目前系統上新增此功能是非常可行，甚至也許原本公車系統就有紀錄人數僅是沒有提供給乘客，但這是讓乘客判斷自己是否要搭車的重要因素，可讓整個公車系統更智慧。</p><h3 id="想法衍伸"><a class="anchor hidden-xs" href="#想法衍伸" title="想法衍伸"><span class="octicon octicon-link"></span></a>想法衍伸</h3><p>反過來思考，公車司機同樣有資訊不充足的問題，無法確切得知是否有人甚至多少人要上車，僅能以揮手判斷，但公車乘客數有限，尖峰時段熱門路段的公車時常是擁擠得令人不舒服，對於乘客感受及司機體會都是不良現象；且公車靠站停車其實有相當大的危險性，因機車、自行車時常位在公車的死角，導致公車停靠站時發生意外釀成悲劇。因此若能同時於智慧公車亭紀錄是否有人想搭車及預備搭車的乘客人數，公車司機將能更準確選擇停靠車站，若是能與其他同號司機進行溝通分配乘客，更能有效進行分流，減少多台同號車同時停靠的危險性和車上時間空間的浪費。</p><h2 id="4、作品應用技術"><a class="anchor hidden-xs" href="#4、作品應用技術" title="4、作品應用技術"><span class="octicon octicon-link"></span></a>4、作品應用技術</h2><p>本作品所有程式碼皆放在 Github 上<br>
+<a href="https://github.com/tigercosmos/bus-iot" target="_blank">https://github.com/tigercosmos/bus-iot</a><br>
+檢視程式碼：</p><pre><code>git clone https://github.com/tigercosmos/bus-iot.git
+cd bus-iot
+</code></pre><h3 id="i-系統整合部分"><a class="anchor hidden-xs" href="#i-系統整合部分" title="i-系統整合部分"><span class="octicon octicon-link"></span></a>i. 系統整合部分</h3><p>使用台北市開放數據，獲得台北市所有公車站、公車所有相關數據，例如所有公車列表、公車型號、公車到站時間、公車路線等等，以此為基礎開發我們自有的 API，中央監控中心會處理所有 API，並以 API 串連物聯網中的所有設備。</p><blockquote>
+<p>API 都是以 PHP 來實現，DB 採用 NOSQL 的方式與 firebase 連結，伺服器環境為 Linux。完整程式碼請參閱 <a href="https://github.com/tigercosmos/bus-iot/tree/master/center/backend%E3%80%82" target="_blank">https://github.com/tigercosmos/bus-iot/tree/master/center/backend。</a></p>
+</blockquote><hr><h4 id="a-公車上裝置"><a class="anchor hidden-xs" href="#a-公車上裝置" title="a-公車上裝置"><span class="octicon octicon-link"></span></a>a. 公車上裝置</h4><ul>
+<li>某乘客持號碼為<code>rfid_number</code>的卡，上車或下車編號為<code>bus_id</code>公車時，使用本 API 傳到控管中心，並用來確認乘客是否從公車站上車，以及計算公車上空位數量<br>
+<mark><strong>GET</strong> URL: <em>/rfid.php?bus_id={bus_id}&amp;rfid={rfid_number}</em></mark><pre><code class="javascript hljs"><div class="wrapper"><div class="gutter linenumber"><span data-linenumber="1"></span>
+<span data-linenumber="2"></span>
+<span data-linenumber="3"></span>
+<span data-linenumber="4"></span>
+<span data-linenumber="5"></span>
+<span data-linenumber="6"></span></div><div class="code"><span class="hljs-comment">// rfid</span>
+[
+    bus_id: {
+        rfid_number
+    }
+]
+</div></div></code></pre>
+</li>
+<li>某路線<code>path_id</code>編號為<code>bus_id</code>的公車， API 會自動根據公車目前的位置，回傳下一站有沒有人想搭這路線的車，呈現在裝置上給司機參考，讓司機不會遺漏乘客<br>
+<mark><strong>GET</strong> URL: <em>/next{path_id}/{bus_id}/next.json</em></mark><pre><code class="javascript hljs"><div class="wrapper"><div class="gutter linenumber"><span data-linenumber="1"></span>
+<span data-linenumber="2"></span>
+<span data-linenumber="3"></span>
+<span data-linenumber="4"></span></div><div class="code"><span class="hljs-comment">// bus_next</span>
+{
+    bool <span class="hljs-comment">// if next step has people</span>
+}
+</div></div></code></pre>
+</li>
+</ul><hr><h4 id="b-公車站裝置"><a class="anchor hidden-xs" href="#b-公車站裝置" title="b-公車站裝置"><span class="octicon octicon-link"></span></a>b. 公車站裝置</h4><ul>
+<li>
+<p>某個人想在<code>station_id</code>的公車站，搭乘<code>path_id</code>號路線的公車，就會在公車站裝置上點選，裝置會將訊息以 API 傳至控管中心，該站要搭乘某路線的人數加一，並會在公車上裝置呈現給司機看。<br>
+<mark><strong>GET</strong> URL: <em>/stop_people.php?path={path_id}&amp;station={station_id}</em></mark></p>
+<pre><code class="javascript hljs"><div class="wrapper"><div class="gutter linenumber"><span data-linenumber="1"></span>
+<span data-linenumber="2"></span>
+<span data-linenumber="3"></span>
+<span data-linenumber="4"></span>
+<span data-linenumber="5"></span></div><div class="code"><span class="hljs-comment">// stop_people</span>
+{
+    station_id
+    path_id
+}
+</div></div></code></pre>
+</li>
+<li>
+<p>公車站<code>station_id</code>的裝置，用此 API 來取得這個車站會有那些公車經過，並回傳<code>bus_path_id</code>和<code>bus_path_name</code><br>
+<mark><strong>GET</strong> URL: <em>/stop_people.php?path={path_id}&amp;station={station_id}</em></mark></p>
+<pre><code class="javascript hljs"><div class="wrapper"><div class="gutter linenumber"><span data-linenumber="1"></span>
+<span data-linenumber="2"></span>
+<span data-linenumber="3"></span>
+<span data-linenumber="4"></span>
+<span data-linenumber="5"></span></div><div class="code"><span class="hljs-comment">// station_path</span>
+{[
+    bus_path_id
+    bus_path_name
+]}
+</div></div></code></pre>
+</li>
+<li>
+<p>公車站<code>station_id</code>的裝置，在某乘客點選要搭乘某路線<code>path_id</code>公車，裝置在 CALL 完<code>stop_people</code> API 後，會再呼叫此 API，並在裝置上呈現該路線公車，最快抵達的那輛公車的目前資訊。<br>
+<mark><strong>GET</strong> URL: <em>/stop_people.php?path={path_id}&amp;station={station_id}</em></mark></p>
+<pre><code class="javascript hljs"><div class="wrapper"><div class="gutter linenumber"><span data-linenumber="1"></span>
+<span data-linenumber="2"></span>
+<span data-linenumber="3"></span>
+<span data-linenumber="4"></span>
+<span data-linenumber="5"></span>
+<span data-linenumber="6"></span>
+<span data-linenumber="7"></span>
+<span data-linenumber="8"></span>
+<span data-linenumber="9"></span>
+<span data-linenumber="10"></span></div><div class="code"><span class="hljs-comment">//stop_bus_info </span>
+{
+    <span class="hljs-attr">path_id</span>: [{
+        <span class="hljs-attr">station_id</span>: [{
+            estimate_time,
+            next_bus_type,
+            next_bus_people
+        }]
+    }]
+}
+</div></div></code></pre>
+</li>
+</ul><hr><h4 id="c-監測系統"><a class="anchor hidden-xs" href="#c-監測系統" title="c-監測系統"><span class="octicon octicon-link"></span></a>c. 監測系統</h4><ul>
+<li>
+<p>中央監測系統的介面呼叫此 API，得到所有公車的列表，並呈現在選單上。<br>
+<mark><strong>GET</strong> URL: <em>/bus-all/path.json</em></mark></p>
+<pre><code class="javascript hljs"><div class="wrapper"><div class="gutter linenumber"><span data-linenumber="1"></span>
+<span data-linenumber="2"></span>
+<span data-linenumber="3"></span>
+<span data-linenumber="4"></span></div><div class="code"><span class="hljs-comment">//path</span>
+{
+    <span class="hljs-attr">bus</span>: [ bus_path ]
+}
+</div></div></code></pre>
+</li>
+<li>
+<p>中央監測系統的介面在選擇某路公車後，會呼叫此 API，並依據得到的回傳資訊，在介面上畫出目前此路線的所有公車與公車站的實況。<br>
+<mark><strong>GET</strong> URL: <em>/bus-all/monitor_bus_info/{path_id}.json</em></mark></p>
+<pre><code class="javascript hljs"><div class="wrapper"><div class="gutter linenumber"><span data-linenumber="1"></span>
+<span data-linenumber="2"></span>
+<span data-linenumber="3"></span>
+<span data-linenumber="4"></span>
+<span data-linenumber="5"></span>
+<span data-linenumber="6"></span>
+<span data-linenumber="7"></span>
+<span data-linenumber="8"></span>
+<span data-linenumber="9"></span>
+<span data-linenumber="10"></span>
+<span data-linenumber="11"></span>
+<span data-linenumber="12"></span>
+<span data-linenumber="13"></span>
+<span data-linenumber="14"></span>
+<span data-linenumber="15"></span>
+<span data-linenumber="16"></span>
+<span data-linenumber="17"></span></div><div class="code"><span class="hljs-comment">// monitor_bus_info</span>
+{
+    bus_number,
+    station_number,
+    order,
+    <span class="hljs-attr">stations</span>: [{
+        name,
+        id,
+        station_people
+    }]
+    buses: [{
+        id,
+        no,
+        position,
+        bus_peple,
+    }]
+}
+</div></div></code></pre>
+</li>
+</ul><hr><h4 id="d-後端程式"><a class="anchor hidden-xs" href="#d-後端程式" title="d-後端程式"><span class="octicon octicon-link"></span></a>d. 後端程式</h4><p><mark>整體邏輯</mark><br>
+每分鐘會執行一次，其中車站與公車皆為全部處理，在此流程圖中只以一個代表。<br>
+<img src="https://raw.githubusercontent.com/tigercosmos/webImg/master/bus-iot-flow.png" alt="" width="1000" height="750"></p><p><mark>API Curl</mark><br>
+所有 API 的呼叫，包含對 Firebase 的 DB 處理，都以 <code>Curl</code> 處理。</p><pre><code class="php hljs"><div class="wrapper"><div class="gutter linenumber"><span data-linenumber="1"></span>
+<span data-linenumber="2"></span>
+<span data-linenumber="3"></span>
+<span data-linenumber="4"></span>
+<span data-linenumber="5"></span>
+<span data-linenumber="6"></span>
+<span data-linenumber="7"></span>
+<span data-linenumber="8"></span>
+<span data-linenumber="9"></span>
+<span data-linenumber="10"></span>
+<span data-linenumber="11"></span>
+<span data-linenumber="12"></span></div><div class="code">$ch = curl_init();
+<span class="hljs-comment">//set curl options</span>
+curl_setopt($ch, CURLOPT_URL, <span class="hljs-string">"$base_path"</span>);
+curl_setopt($ch, CURLOPT_HEADER, <span class="hljs-keyword">false</span>);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER,<span class="hljs-number">1</span>);
+<span class="hljs-comment">//patch optiomns</span>
+curl_setopt($ch, CURLOPT_CUSTOMREQUEST, <span class="hljs-string">"PATCH"</span>);
+curl_setopt($ch, CURLOPT_POSTFIELDS,$data);
+<span class="hljs-comment">//execute curl</span>
+curl_exec($ch);
+<span class="hljs-comment">//close curl</span>
+curl_close($ch);
+</div></div></code></pre><hr><h3 id="ii-公車站裝置介紹"><a class="anchor hidden-xs" href="#ii-公車站裝置介紹" title="ii-公車站裝置介紹"><span class="octicon octicon-link"></span></a>ii. 公車站裝置介紹</h3><blockquote>
+<p>公車站裝置以 <code>Keil</code> 開發，<code>Src</code>請參閱 <a href="https://github.com/tigercosmos/bus-iot/tree/master/station/project/Src" target="_blank">https://github.com/tigercosmos/bus-iot/tree/master/station/project/Src</a></p>
+</blockquote><p>使用 STM32F469I Discovery 開發版，預設是假定此開發板作為觸控裝置裝設在公車站，乘客在公車站時能與此裝置進行互動。</p><h4 id="裝置圖"><a class="anchor hidden-xs" href="#裝置圖" title="裝置圖"><span class="octicon octicon-link"></span></a>裝置圖</h4><p>用此開發版原本就有的 TFT LCD 當作螢幕介面，使用者一進去之後會有選單，點選進入某路公車，代表他想搭乘此公車，此時裝置會傳 API 給中央伺服器，中央伺服器會記錄此資訊並更新資料庫。<br>
+<mark>公車站想搭乘的選單</mark><br>
+<img src="https://raw.githubusercontent.com/tigercosmos/webImg/master/bus-iot-3.jpg" alt="" width="600" height="420"></p><p>點擊後會呈現目前該路線最快抵達的公車的資訊給使用者看，包含公車的編號、是否為低底盤、車上空位數量、還有多久會到等等。<br>
+<mark>點擊進去之後的資訊</mark><br>
+<img src="https://raw.githubusercontent.com/tigercosmos/webImg/master/bus-iot-4.jpg" alt="" width="600" height="420"></p><h4 id="實作技術"><a class="anchor hidden-xs" href="#實作技術" title="實作技術"><span class="octicon octicon-link"></span></a>實作技術</h4><p>STM32F469I Discovery 的開發採用 <code>STemWin</code> 函式庫來做介面呈現，包含顯示文字、顯示按鈕等，此函式庫也同時處理了觸控部分的底層設定。</p><p>透過 <code>STemWin</code> 中 <code>GUI.h</code> 來做到一般背景、文字等處理。</p><pre><code class="clike hljs"><div class="wrapper"><div class="gutter linenumber"><span data-linenumber="1"></span>
+<span data-linenumber="2"></span>
+<span data-linenumber="3"></span>
+<span data-linenumber="4"></span>
+<span data-linenumber="5"></span>
+<span data-linenumber="6"></span>
+<span data-linenumber="7"></span>
+<span data-linenumber="8"></span>
+<span data-linenumber="9"></span></div><div class="code"><span class="hljs-comment">// Backgreound</span>
+GUI_SetBkColor(GUI_BLACK);
+GUI_DrawGradientH(<span class="hljs-number">0</span>, <span class="hljs-number">71</span>, <span class="hljs-number">800</span>, <span class="hljs-number">480</span>, GUI_BLUE, GUI_GREEN);
+<span class="hljs-comment">// Text setting</span>
+GUI_SetTextMode(GUI_TM_TRANS);
+GUI_SetColor(GUI_WHITE);
+<span class="hljs-comment">// Print Text</span>
+GUI_SetFont(&amp;GUI_Font20B_ASCII);
+GUI_DispStringHCenterAt(<span class="hljs-string">"Some text here..."</span>, <span class="hljs-number">250</span>, <span class="hljs-number">90</span>);
+</div></div></code></pre><p>透過 <code>STemWin</code> 中 <code>BUTTON.h</code>、<code>WM.h</code> 來實現按鈕的就面與觸控事件控制。</p><pre><code class="clike hljs"><div class="wrapper"><div class="gutter linenumber"><span data-linenumber="1"></span>
+<span data-linenumber="2"></span>
+<span data-linenumber="3"></span>
+<span data-linenumber="4"></span>
+<span data-linenumber="5"></span>
+<span data-linenumber="6"></span>
+<span data-linenumber="7"></span>
+<span data-linenumber="8"></span>
+<span data-linenumber="9"></span>
+<span data-linenumber="10"></span>
+<span data-linenumber="11"></span>
+<span data-linenumber="12"></span>
+<span data-linenumber="13"></span>
+<span data-linenumber="14"></span>
+<span data-linenumber="15"></span>
+<span data-linenumber="16"></span>
+<span data-linenumber="17"></span>
+<span data-linenumber="18"></span>
+<span data-linenumber="19"></span>
+<span data-linenumber="20"></span>
+<span data-linenumber="21"></span>
+<span data-linenumber="22"></span>
+<span data-linenumber="23"></span></div><div class="code"><span class="hljs-comment">// Button Demo Smaple</span>
+
+<span class="hljs-comment">/* Bus button binding */</span>
+BUTTON_Handle busBt[bus_number];
+
+<span class="hljs-comment">/* Create Button */</span>
+busBt[i] = BUTTON_CreateEx(x, y, x_size, y_size, WM_CF_SHOW, <span class="hljs-number">0</span>, i);
+<span class="hljs-comment">/* Button font */</span>
+BUTTON_SetFont(busBt[i], &amp;GUI_Font20_ASCII);
+<span class="hljs-comment">/* Button name */</span>
+BUTTON_SetText(busBt[i], bus_name[i]);
+<span class="hljs-comment">/* Background color when button is not pressed */</span>
+BUTTON_SetBkColor(busBt[i], BUTTON_CI_UNPRESSED, GUI_DARKGREEN);
+<span class="hljs-comment">/* Background color when button is pressed */</span>
+BUTTON_SetBkColor(busBt[i], BUTTON_CI_PRESSED, GUI_GREEN);
+
+<span class="hljs-comment">/* Show buttons */</span>
+GUI_Exec();
+
+<span class="hljs-comment">/* Get pressed key to know which button is pressed */</span>
+<span class="hljs-keyword">if</span> (GUI_GetKey() == Button_Key){
+    <span class="hljs-comment">// Call API return info via wifi</span>
+}
+</div></div></code></pre><h3 id="iii-公車上裝置介紹"><a class="anchor hidden-xs" href="#iii-公車上裝置介紹" title="iii-公車上裝置介紹"><span class="octicon octicon-link"></span></a>iii. 公車上裝置介紹</h3><blockquote>
+<p>公車上裝置使用 <code>mbed</code> 開發環境，專案內容請參閱 <a href="https://github.com/tigercosmos/bus-iot/tree/master/bus/rfid" target="_blank">https://github.com/tigercosmos/bus-iot/tree/master/bus/rfid</a></p>
+</blockquote><p>RFID 辨識系統使用市面上易取得的 RC522 模組（ 13.56 Mhz ，傳輸速度為中低速，常用於小卡片）連接主板 STM32F469I ，使用<code>mbed</code>開發環境。</p><p><mark>RFID晶片</mark><br>
+<img src="https://raw.githubusercontent.com/kartdsam/webimg/master/RC522.jpg" alt="" width="300" height="400"></p><h4 id="程式碼："><a class="anchor hidden-xs" href="#程式碼：" title="程式碼："><span class="octicon octicon-link"></span></a>程式碼：</h4><pre><code class="clike hljs"><div class="wrapper"><div class="gutter linenumber"><span data-linenumber="1"></span>
+<span data-linenumber="2"></span>
+<span data-linenumber="3"></span>
+<span data-linenumber="4"></span>
+<span data-linenumber="5"></span>
+<span data-linenumber="6"></span>
+<span data-linenumber="7"></span>
+<span data-linenumber="8"></span>
+<span data-linenumber="9"></span>
+<span data-linenumber="10"></span>
+<span data-linenumber="11"></span>
+<span data-linenumber="12"></span>
+<span data-linenumber="13"></span>
+<span data-linenumber="14"></span>
+<span data-linenumber="15"></span>
+<span data-linenumber="16"></span>
+<span data-linenumber="17"></span>
+<span data-linenumber="18"></span>
+<span data-linenumber="19"></span>
+<span data-linenumber="20"></span>
+<span data-linenumber="21"></span>
+<span data-linenumber="22"></span>
+<span data-linenumber="23"></span>
+<span data-linenumber="24"></span></div><div class="code">RfChip.PCD_Init();
+<span class="hljs-keyword">uint8_t</span> uid[<span class="hljs-number">30</span>];
+
+<span class="hljs-keyword">while</span> (<span class="hljs-literal">true</span>)
+{
+    LedGreen = <span class="hljs-number">1</span>;
+    lcd.Clear(LCD_COLOR_BLACK);
+    lcd.SetBackColor(LCD_COLOR_BLACK);
+    lcd.SetTextColor(LCD_COLOR_WHITE);
+    lcd.DisplayStringAt(<span class="hljs-number">0</span>, LINE(<span class="hljs-number">4</span>), (<span class="hljs-keyword">uint8_t</span> *)<span class="hljs-string">"Start"</span>, CENTER_MODE);
+    <span class="hljs-comment">// Look for new cards</span>
+    <span class="hljs-keyword">if</span> (!RfChip.PICC_IsNewCardPresent())
+    {
+      wait_ms(<span class="hljs-number">500</span>);
+      <span class="hljs-keyword">continue</span>;
+    }
+
+    <span class="hljs-comment">// Select one of the cards</span>
+    <span class="hljs-keyword">if</span> (!RfChip.PICC_ReadCardSerial())
+    {
+      wait_ms(<span class="hljs-number">500</span>);
+      <span class="hljs-keyword">continue</span>;
+    }
+}
+</div></div></code></pre><p>RFID 晶片的初始化並設定等待讀取時間，並使用 <code>mbed</code> 中的 LCD 函式顯示於觸控螢幕上方便觀看。</p><pre><code class="clike hljs"><div class="wrapper"><div class="gutter linenumber"><span data-linenumber="1"></span>
+<span data-linenumber="2"></span>
+<span data-linenumber="3"></span>
+<span data-linenumber="4"></span>
+<span data-linenumber="5"></span>
+<span data-linenumber="6"></span>
+<span data-linenumber="7"></span>
+<span data-linenumber="8"></span>
+<span data-linenumber="9"></span>
+<span data-linenumber="10"></span>
+<span data-linenumber="11"></span>
+<span data-linenumber="12"></span>
+<span data-linenumber="13"></span>
+<span data-linenumber="14"></span></div><div class="code"><span class="hljs-comment">/* Print Card UID */</span>
+lcd.DisplayStringAt(<span class="hljs-number">0</span>, LINE(<span class="hljs-number">5</span>), (<span class="hljs-keyword">uint8_t</span> *)<span class="hljs-string">"Card UID: "</span>, CENTER_MODE);
+<span class="hljs-keyword">for</span> (<span class="hljs-keyword">uint8_t</span> i = <span class="hljs-number">0</span>; i &lt; RfChip.uid.size; i++)
+{
+  <span class="hljs-built_in">sprintf</span>((<span class="hljs-keyword">char</span>*)uid, <span class="hljs-string">" %X"</span>, RfChip.uid.uidByte[i]);
+  lcd.DisplayStringAt(<span class="hljs-number">0</span>, LINE(i+<span class="hljs-number">6</span>), (<span class="hljs-keyword">uint8_t</span> *)&amp;uid, CENTER_MODE);
+}
+
+<span class="hljs-comment">/* Print Card type */</span>
+<span class="hljs-keyword">uint8_t</span> piccType = RfChip.PICC_GetType(RfChip.uid.sak);
+lcd.DisplayStringAt(<span class="hljs-number">0</span>, LINE(<span class="hljs-number">7</span>), (<span class="hljs-keyword">uint8_t</span> *)<span class="hljs-string">"PICC Type: "</span>, RIGHT_MODE);
+lcd.DisplayStringAt(<span class="hljs-number">0</span>, LINE(<span class="hljs-number">8</span>), 
+                    (<span class="hljs-keyword">uint8_t</span> *)RfChip.PICC_GetTypeName(piccType), 
+                    RIGHT_MODE);
+</div></div></code></pre><p>讀取到 RFID 的卡片後，顯示識別元（UID）及卡片類型於觸控螢幕。</p><h3 id="iv-開發版的網路連接介紹"><a class="anchor hidden-xs" href="#iv-開發版的網路連接介紹" title="iv-開發版的網路連接介紹"><span class="octicon octicon-link"></span></a>iV. 開發版的網路連接介紹</h3><blockquote>
+<p>網路模組使用 <code>mbed</code> 開發環境，專案內容請參閱 <a href="https://github.com/tigercosmos/bus-iot/tree/master/Util/wifi" target="_blank">https://github.com/tigercosmos/bus-iot/tree/master/Util/wifi</a></p>
+</blockquote><p>開發版的網路連接使用市面上易取得的 <code>ESP8266</code>晶片模組（ESP-01）連接主板 <code>STM32F469I</code>，使用 <code>mbed</code> 開發環境。</p><p><mark>ESP8266 晶片</mark><br>
+<img src="https://raw.githubusercontent.com/kartdsam/webimg/master/ESP-01.jpg" alt="" width="400" height="300"></p><h4 id="程式碼：1"><a class="anchor hidden-xs" href="#程式碼：1" title="程式碼：1"><span class="octicon octicon-link"></span></a>程式碼：</h4><pre><code class="clike hljs"><div class="wrapper"><div class="gutter linenumber"><span data-linenumber="1"></span>
+<span data-linenumber="2"></span>
+<span data-linenumber="3"></span>
+<span data-linenumber="4"></span>
+<span data-linenumber="5"></span>
+<span data-linenumber="6"></span>
+<span data-linenumber="7"></span>
+<span data-linenumber="8"></span>
+<span data-linenumber="9"></span>
+<span data-linenumber="10"></span>
+<span data-linenumber="11"></span>
+<span data-linenumber="12"></span>
+<span data-linenumber="13"></span>
+<span data-linenumber="14"></span>
+<span data-linenumber="15"></span>
+<span data-linenumber="16"></span></div><div class="code"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">scan_demo</span><span class="hljs-params">(WiFiInterface *wifi)</span>
+</span>{
+    WiFiAccessPoint *ap;
+
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">"Scan:\r\n"</span>);
+
+    <span class="hljs-keyword">int</span> count = wifi-&gt;scan(<span class="hljs-literal">NULL</span>,<span class="hljs-number">0</span>);
+
+    <span class="hljs-comment">/* Limit number of network arbitrary to 15 */</span>
+    count = count &lt; <span class="hljs-number">15</span> ? count : <span class="hljs-number">15</span>;
+
+    ap = <span class="hljs-keyword">new</span> WiFiAccessPoint[count];
+    count = wifi-&gt;scan(ap, count);
+
+    <span class="hljs-keyword">delete</span>[] ap;
+}
+</div></div></code></pre><p>掃描可用 AP ( <code>SSID</code> 及密碼設定在 <code>json</code> 檔供讀取)，並使用 Serial 連接直接在電腦端觀看搜尋情況（可使用 <code>Tera Term</code> 等類似軟體,鮑率為 <code>9600</code>，設定 <code>new line</code> 為 <code>auto</code>）。</p><pre><code class="clike hljs"><div class="wrapper"><div class="gutter linenumber"><span data-linenumber="1"></span>
+<span data-linenumber="2"></span>
+<span data-linenumber="3"></span>
+<span data-linenumber="4"></span>
+<span data-linenumber="5"></span></div><div class="code"><span class="hljs-keyword">int</span> ret = wifi.connect(WIFI_SSID,WIFI_PASSWORD, NSAPI_SECURITY_WPA_WPA2);
+<span class="hljs-keyword">if</span> (ret != <span class="hljs-number">0</span>) {
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">"\r\nConnection error\r\n"</span>);
+    <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;
+}
+</div></div></code></pre><p>掃描到相符 AP 後進行連線,相關連線資訊也可使用函式列出。</p><pre><code class="clike hljs"><div class="wrapper"><div class="gutter linenumber"><span data-linenumber="1"></span>
+<span data-linenumber="2"></span>
+<span data-linenumber="3"></span>
+<span data-linenumber="4"></span>
+<span data-linenumber="5"></span>
+<span data-linenumber="6"></span>
+<span data-linenumber="7"></span>
+<span data-linenumber="8"></span>
+<span data-linenumber="9"></span>
+<span data-linenumber="10"></span>
+<span data-linenumber="11"></span>
+<span data-linenumber="12"></span>
+<span data-linenumber="13"></span>
+<span data-linenumber="14"></span></div><div class="code"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">http_demo</span><span class="hljs-params">(NetworkInterface *net)</span>
+</span>{
+    TCPSocket socket;
+    <span class="hljs-comment">// Open a socket on the network interface, and create a TCP connection </span>
+    socket.open(net);
+    socket.connect(<span class="hljs-string">"url"</span>, <span class="hljs-number">80</span>);
+    <span class="hljs-comment">// Send a simple http request</span>
+    <span class="hljs-keyword">char</span> sbuffer[] = <span class="hljs-string">"GET / HTTP/1.1\r\nHost: url\r\n\r\n"</span>;
+    <span class="hljs-keyword">int</span> scount = socket.send(sbuffer, <span class="hljs-keyword">sizeof</span> sbuffer);
+    <span class="hljs-comment">// Recieve a simple http response and print out the response line</span>
+    <span class="hljs-keyword">char</span> rbuffer[<span class="hljs-number">64</span>];
+    <span class="hljs-keyword">int</span> rcount = socket.recv(rbuffer, <span class="hljs-keyword">sizeof</span> rbuffer);
+    socket.close();
+}
+</div></div></code></pre><p>使用 socket 連線並使用 HTTP 傳輸</p><h3 id="v-監控介面介紹"><a class="anchor hidden-xs" href="#v-監控介面介紹" title="v-監控介面介紹"><span class="octicon octicon-link"></span></a>V. 監控介面介紹</h3><p>監控介面用來給中央控管中心的人員做監控，雖然說物聯網本身的概念是可以不需要人為介入，但有時仍不免發生意外，監管人員便可以用此介面來掌控第一時間的狀況，此外此介面也可以給一般有興趣的民眾查詢使用。</p><h4 id="介面樣貌"><a class="anchor hidden-xs" href="#介面樣貌" title="介面樣貌"><span class="octicon octicon-link"></span></a>介面樣貌</h4><p>實際做好的介面，可以到以下網址實際操作<br>
+<a href="https://tigercosmos.github.io/bus-monitor/" target="_blank">https://tigercosmos.github.io/bus-monitor/</a></p><p><strong>進入選單</strong><br>
+<img src="https://raw.githubusercontent.com/tigercosmos/webImg/master/bus-iot-2.PNG" alt="" width="400" height="400"></p><p><strong>呈現某路公車現在狀況</strong><br>
+包含路線中所有公車與所有公車站<br>
+<img src="https://raw.githubusercontent.com/tigercosmos/webImg/master/bus-iot-1.PNG" alt="" width="400" height="400"></p><h4 id="介面技術"><a class="anchor hidden-xs" href="#介面技術" title="介面技術"><span class="octicon octicon-link"></span></a>介面技術</h4><blockquote>
+<p>源始碼請參閱 <a href="https://github.com/tigercosmos/bus-iot/tree/master/center/frontend" target="_blank">https://github.com/tigercosmos/bus-iot/tree/master/center/frontend</a></p>
+</blockquote><p>前端技術採用 <code>jQuery</code> 框架搭配 <code>AntV G6</code> 函式庫與 <code>Bootstrap</code> 樣貌模板。<br>
+<code>AntV G6</code> 可以劃出各種數學定義上的 Graph，我們使用他來繪製公車路徑圖和將公車放在路線上。</p><p>簡單事例如何處理，<code>node</code>便是公車站，<code>edge</code> 就是車站的連結關係(方向)，如此一來就可做出公車路線圖</p><pre><code class="javascript hljs"><div class="wrapper"><div class="gutter linenumber"><span data-linenumber="1"></span>
+<span data-linenumber="2"></span>
+<span data-linenumber="3"></span>
+<span data-linenumber="4"></span>
+<span data-linenumber="5"></span>
+<span data-linenumber="6"></span>
+<span data-linenumber="7"></span>
+<span data-linenumber="8"></span>
+<span data-linenumber="9"></span>
+<span data-linenumber="10"></span>
+<span data-linenumber="11"></span>
+<span data-linenumber="12"></span>
+<span data-linenumber="13"></span>
+<span data-linenumber="14"></span>
+<span data-linenumber="15"></span>
+<span data-linenumber="16"></span>
+<span data-linenumber="17"></span>
+<span data-linenumber="18"></span>
+<span data-linenumber="19"></span>
+<span data-linenumber="20"></span>
+<span data-linenumber="21"></span>
+<span data-linenumber="22"></span>
+<span data-linenumber="23"></span>
+<span data-linenumber="24"></span>
+<span data-linenumber="25"></span>
+<span data-linenumber="26"></span>
+<span data-linenumber="27"></span></div><div class="code"><span class="hljs-keyword">var</span> data = {
+   <span class="hljs-comment">// Which implies stations</span>
+   nodes: [{
+           <span class="hljs-string">"id"</span>: <span class="hljs-string">"node1"</span>,
+           <span class="hljs-string">"x"</span>: <span class="hljs-number">100</span>,
+           <span class="hljs-string">"y"</span>: <span class="hljs-number">160</span>
+       },
+       {
+           <span class="hljs-string">"id"</span>: <span class="hljs-string">"node2"</span>,
+           <span class="hljs-string">"x"</span>: <span class="hljs-number">290</span>,
+           <span class="hljs-string">"y"</span>: <span class="hljs-number">160</span>
+       }
+   ],
+   <span class="hljs-comment">// Which implies buses</span>
+   edges: [{
+       <span class="hljs-string">"id"</span>: <span class="hljs-string">"node1-node2"</span>,
+       <span class="hljs-string">"target"</span>: <span class="hljs-string">"node1"</span>,
+       <span class="hljs-string">"source"</span>: <span class="hljs-string">"node2"</span>
+   }]
+};
+<span class="hljs-comment">// new G6 object</span>
+<span class="hljs-keyword">var</span> net = <span class="hljs-keyword">new</span> G6.Net({
+   <span class="hljs-attr">id</span>: <span class="hljs-string">'c1'</span>, <span class="hljs-comment">// DOM ID</span>
+   height: <span class="hljs-number">450</span> <span class="hljs-comment">// DOM Height</span>
+});
+net.source(data.nodes, data.edges);
+net.render(); <span class="hljs-comment">// refresh screen</span>
+</div></div></code></pre><h2 id="5、實作設計考量"><a class="anchor hidden-xs" href="#5、實作設計考量" title="5、實作設計考量"><span class="octicon octicon-link"></span></a>5、實作設計考量</h2><h3 id="i-系統整合層面"><a class="anchor hidden-xs" href="#i-系統整合層面" title="i-系統整合層面"><span class="octicon octicon-link"></span></a>i. 系統整合層面</h3><h4 id="a-處理資料"><a class="anchor hidden-xs" href="#a-處理資料" title="a-處理資料"><span class="octicon octicon-link"></span></a>a. 處理資料</h4><p>所有公車與公車站的資料多達數百 MB，處理起來非常費時，但是公車動態非常重視即時更新，每分鐘都要更新一次來確定公車確切位置，因而如何有效在短時間快速處理資料便非常重要。</p><p>同樣資料盡量只讀取一次，減少重複讀寫的次數，藉由 Firebase 已經優化過的 DB 架構，可以只針對特定 patch 進行快速讀寫，因此專案的資料型態比較適合以物件處理，故採用 NoSQL 而不採用 SQL DB。</p><p>伺服器每分鐘固定抓取台北市公車開放資料，並且依據物聯網裝置回傳的API，進行 DB 的更新，此部分只針對特定的 patch 進行修改，故可以達到快速更新。</p><h4 id="b-api-架構"><a class="anchor hidden-xs" href="#b-api-架構" title="b-api-架構"><span class="octicon octicon-link"></span></a>b. API 架構</h4><p>所有 API 設計皆採用 RESTful API 風格設計，資料皆採用 <code>json</code> 格式，主要是因為有以下優點：</p><ul>
+<li>RESTful API 處理效率高，物聯網講求高效快速</li>
+<li>REST 可以同時接受多個 Requests，物聯網中可能同時會有很多裝置傳送 Requests</li>
+<li>REST 技術讓任何裝置只要上網就可以傳送 API，相容性非常高</li>
+<li><code>Json</code> 格式在資料儲存上體積非常小，符合物聯網裝置的需求</li>
+</ul><h4 id="c-後端語言"><a class="anchor hidden-xs" href="#c-後端語言" title="c-後端語言"><span class="octicon octicon-link"></span></a>c. 後端語言</h4><p>因為此專案需要在短時間內完成，故選用 <code>PHP</code> 開發，每個 <code>PHP</code> 都可以當作是一支 API。但如果未來想要拓展規模，加入平行運算與分散式系統，採用 <code>Java</code>、<code>Rust</code> 等語言會比較安全且穩定。</p><h3 id="ii-開發板設計層面"><a class="anchor hidden-xs" href="#ii-開發板設計層面" title="ii-開發板設計層面"><span class="octicon octicon-link"></span></a>ii. 開發板設計層面</h3><h4 id="a-emwin"><a class="anchor hidden-xs" href="#a-emwin" title="a-emwin"><span class="octicon octicon-link"></span></a>a. emWin</h4><p><code>emWin</code> 已經將所有介面包裝成 API，我們不必再從底層慢慢刻劃畫面，對於開發速度很有幫助，他整合了 GUI 和觸控，甚至可以畫出視窗介面，搭配開發本原本就有的 TFT LCD 使用起來非常方便。</p><h4 id="b-rfid"><a class="anchor hidden-xs" href="#b-rfid" title="b-rfid"><span class="octicon octicon-link"></span></a>b. RFID</h4><p><code>mbed</code>開發環境的 cookbook 有使用 <code>RX</code> 及 <code>TX</code> 傳輸數據讀取 RFID 的範例程式，但因使用的 RFID 晶片使用 <code>SPI</code> 傳輸所以不合用，另外從 <code>mbed</code> 社群找到先進針對這塊模組寫的額外 library ，並且搭配 LCD 的 library 完成 RFID 的讀取及偵錯。</p><h4 id="c-wifi-module"><a class="anchor hidden-xs" href="#c-wifi-module" title="c-wifi-module"><span class="octicon octicon-link"></span></a>c. WIFI MODULE</h4><p><code>mbed</code> 開發環境的 cookbook 依然是使用 <code>RX</code> 及 <code>TX</code> 傳輸 Wi-Fi 的範例程式，而我們拿到的 Wi-Fi 擴展版則是 <code>SPI</code> 傳輸，但因 <code>SPI</code> 轉 Wi-Fi 傳輸的步驟較為繁複，因此選擇易取得的 <code>RX</code> 及 <code>TX</code> 傳輸的 <code>ESP8266</code>，搭配其 driver 並使用 Serial 的方式從電腦端監控 Wi-Fi 連線情況完成無線連線的設定。</p><h2 id="6、實作結果"><a class="anchor hidden-xs" href="#6、實作結果" title="6、實作結果"><span class="octicon octicon-link"></span></a>6、實作結果</h2><p>當我們組的理念達成共識時，就發現為了達成理想上的公車物聯網系統，真正完成我們的目標，不只需要專注於開發版的部分，還有網頁、使用者介面、資料庫、伺服器及 API 等需要準備，必須善加分配人力，因此分成伺服器後端及資料庫 API 的串接、開發版 GUI 及網頁前端、 RFID 讀取及 Wi-Fi 連接等三個部分，希望達成理想上的公車物聯網系統開發。</p><p>而初步結果架構相當完整，上述提到的部分皆有成果且可以整合使用：從台北市政府開放資料抓取資料，且藉由 Firebase 已經優化過的 DB 架構速度進行快速讀寫、API 皆為 <code>Json</code> 格式因此通用且明瞭、監控介面簡潔清晰、開發版GUI的使用者畫面採用設計思考，以使用者立場設計容易使用的介面、 RFID 可明確辨識不同張感應卡、 Wi-Fi 可進行 HTTP 傳輸。將以上實際整合至現今公車亭及等公車 app，將會讓公車這項大眾運輸更有智慧更親民。</p><h2 id="7、結論"><a class="anchor hidden-xs" href="#7、結論" title="7、結論"><span class="octicon octicon-link"></span></a>7、結論</h2><p>我們這組曾有使用過 Arduino、 linkit 7688、 RPI 等微控制板等經驗，且有組員相當熟悉前端及網路系統的操作，但此次皆為第一次使用 ARM 架構的 STM32 晶片且附有觸控螢幕的板子，對其架構、語法、開發環境及討論社群等都不甚熟悉，好似發現一片新大陸般驚奇，但為達成我們的理念需要開發編寫的部分較多，且暑假大家都有各自的規畫安排（實驗室、實習等），為了專案的進行過程能更順利並分工，一位組員二話不說自掏腰包多買了一塊同樣的開發版。</p><p>在這次準備的過程中，不僅對 STM32F4 系列開發版的架構更了解，並更深入學習 <code>Keil</code>、 <code>emWin</code>、 <code>RTOS</code>、 <code>mbed</code> 的開發環境及其各式各樣的特點，並對編寫 <code>php</code>、 <code>DB</code> 架構有更多探討，思慮物聯網所需的網路系統及建構一個達成我們理念的專案所需考慮的眾多細節。為了 coding 犧牲許多睡眠時間而日夜顛倒的大家，都在此次比賽收穫極大。</p><h2 id="8、參考文獻"><a class="anchor hidden-xs" href="#8、參考文獻" title="8、參考文獻"><span class="octicon octicon-link"></span></a>8、參考文獻</h2><ul>
+<li><a href="https://www.segger.com/downloads/emwin/UM03001_emWin5.pdf" target="_blank">emWin API Document</a></li>
+<li><a href="https://antv.alipay.com/index.html" target="_blank">Ant G6 Official website</a></li>
+<li><a href="https://firebase.google.com/docs/" target="_blank"> Firebase Document</a></li>
+<li><a href="http://wiki.csie.ncku.edu.tw/embedded/Lab19/stm32-prog.pdf" target="_blank">嵌入式系統建構：開發運作於STM32的韌體程式</a></li>
+<li><a href="https://developer.mbed.org/users/kirchnet/code/RFID-RC522/" target="_blank">MBED RFID-RC522 Document</a></li>
+<li><a href="https://developer.mbed.org/teams/ESP8266/" target="_blank">MBED ESP8266 Document</a></li>
+</ul><h6 id="tags-stm32f469i-discovery-bus-iot-iot-device"><a class="anchor hidden-xs" href="#tags-stm32f469i-discovery-bus-iot-iot-device" title="tags-stm32f469i-discovery-bus-iot-iot-device"><span class="octicon octicon-link"></span></a>tags: <code>STM32F469I Discovery</code>, <code>bus-iot</code>, <code>iot-device</code></h6></div>
+    <div class="ui-toc dropup unselectable hidden-print" style="display:none;">
+        <div class="pull-right dropdown">
+            <a id="tocLabel" class="ui-toc-label btn btn-default" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" title="Table of content">
+                <i class="fa fa-bars"></i>
+            </a>
+            <ul id="ui-toc" class="ui-toc-dropdown dropdown-menu" aria-labelledby="tocLabel">
+                <div class="toc"><ul class="nav"><li><a href="#2017-arm-design-contest-設計競賽">2017 ARM Design Contest 設計競賽</a></li><li class=""><a href="#初-賽-報-告">初 賽 報 告</a><ul class="nav"><li><a href="#作品名稱：公車、公車站與中央監控中心的物聯網系統">作品名稱：公車、公車站與中央監控中心的物聯網系統</a></li><li><a href="#隊名：騰雲的微中子">隊名：騰雲的微中子</a></li><li><a href="#中華民國-106-年-9-月-8-日">中華民國 106 年 9 月 8 日</a><ul class="nav"><li><a href="#1、摘要">1、摘要</a></li><li><a href="#2、作品功能與實用性">2、作品功能與實用性</a></li></ul></li><li><a href="#改善智慧生活">改善智慧生活</a></li><li><a href="#結合未來趨勢">結合未來趨勢</a><ul class="nav"><li><a href="#3、設計創意性">3、設計創意性</a></li></ul></li><li><a href="#緣起">緣起</a></li><li><a href="#最初想法">最初想法</a></li><li><a href="#想法衍伸">想法衍伸</a><ul class="nav"><li><a href="#4、作品應用技術">4、作品應用技術</a></li></ul></li><li><a href="#i-系統整合部分">i. 系統整合部分</a></li><li class=""><a href="#ii-公車站裝置介紹">ii. 公車站裝置介紹</a></li><li><a href="#iii-公車上裝置介紹">iii. 公車上裝置介紹</a></li><li><a href="#iv-開發版的網路連接介紹">iV. 開發版的網路連接介紹</a></li><li><a href="#v-監控介面介紹">V. 監控介面介紹</a><ul class="nav"><li><a href="#5、實作設計考量">5、實作設計考量</a></li></ul></li><li><a href="#i-系統整合層面">i. 系統整合層面</a></li><li><a href="#ii-開發板設計層面">ii. 開發板設計層面</a><ul class="nav"><li><a href="#6、實作結果">6、實作結果</a></li><li><a href="#7、結論">7、結論</a></li><li><a href="#8、參考文獻">8、參考文獻</a></li></ul></li></ul></li></ul></div><div class="toc-menu"><a class="expand-toggle" href="#">Expand all</a><a class="back-to-top" href="#">Back to top</a><a class="go-to-bottom" href="#">Go to bottom</a></div>
+            </ul>
+        </div>
+    </div>
+    <div id="ui-toc-affix" class="ui-affix-toc ui-toc-dropdown unselectable hidden-print" data-spy="affix" style="top:17px;display:none;"  >
+        <div class="toc"><ul class="nav"><li><a href="#2017-arm-design-contest-設計競賽">2017 ARM Design Contest 設計競賽</a></li><li class=""><a href="#初-賽-報-告">初 賽 報 告</a><ul class="nav"><li><a href="#作品名稱：公車、公車站與中央監控中心的物聯網系統">作品名稱：公車、公車站與中央監控中心的物聯網系統</a></li><li><a href="#隊名：騰雲的微中子">隊名：騰雲的微中子</a></li><li><a href="#中華民國-106-年-9-月-8-日">中華民國 106 年 9 月 8 日</a><ul class="nav"><li><a href="#1、摘要">1、摘要</a></li><li><a href="#2、作品功能與實用性">2、作品功能與實用性</a></li></ul></li><li><a href="#改善智慧生活">改善智慧生活</a></li><li><a href="#結合未來趨勢">結合未來趨勢</a><ul class="nav"><li><a href="#3、設計創意性">3、設計創意性</a></li></ul></li><li><a href="#緣起">緣起</a></li><li><a href="#最初想法">最初想法</a></li><li><a href="#想法衍伸">想法衍伸</a><ul class="nav"><li><a href="#4、作品應用技術">4、作品應用技術</a></li></ul></li><li><a href="#i-系統整合部分">i. 系統整合部分</a></li><li class=""><a href="#ii-公車站裝置介紹">ii. 公車站裝置介紹</a></li><li><a href="#iii-公車上裝置介紹">iii. 公車上裝置介紹</a></li><li><a href="#iv-開發版的網路連接介紹">iV. 開發版的網路連接介紹</a></li><li><a href="#v-監控介面介紹">V. 監控介面介紹</a><ul class="nav"><li><a href="#5、實作設計考量">5、實作設計考量</a></li></ul></li><li><a href="#i-系統整合層面">i. 系統整合層面</a></li><li><a href="#ii-開發板設計層面">ii. 開發板設計層面</a><ul class="nav"><li><a href="#6、實作結果">6、實作結果</a></li><li><a href="#7、結論">7、結論</a></li><li><a href="#8、參考文獻">8、參考文獻</a></li></ul></li></ul></li></ul></div><div class="toc-menu"><a class="expand-toggle" href="#">Expand all</a><a class="back-to-top" href="#">Back to top</a><a class="go-to-bottom" href="#">Go to bottom</a></div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gist-embed/2.6.0/gist-embed.min.js" integrity="sha256-KyF2D6xPIJUW5sUDSs93vWyZm+1RzIpKCexxElmxl8g=" crossorigin="anonymous" defer></script>
+    <script>
+        var markdown = $(".markdown-body");
+        //smooth all hash trigger scrolling
+        function smoothHashScroll() {
+            var hashElements = $("a[href^='#']").toArray();
+            for (var i = 0; i < hashElements.length; i++) {
+                var element = hashElements[i];
+                var $element = $(element);
+                var hash = element.hash;
+                if (hash) {
+                    $element.on('click', function (e) {
+                        // store hash
+                        var hash = this.hash;
+                        if ($(hash).length <= 0) return;
+                        // prevent default anchor click behavior
+                        e.preventDefault();
+                        // animate
+                        $('body, html').stop(true, true).animate({
+                            scrollTop: $(hash).offset().top
+                        }, 100, "linear", function () {
+                            // when done, add hash to url
+                            // (default click behaviour)
+                            window.location.hash = hash;
+                        });
+                    });
+                }
+            }
+        }
+
+        smoothHashScroll();
+        var toc = $('.ui-toc');
+        var tocAffix = $('.ui-affix-toc');
+        var tocDropdown = $('.ui-toc-dropdown');
+        //toc
+        tocDropdown.click(function (e) {
+            e.stopPropagation();
+        });
+
+        var enoughForAffixToc = true;
+
+        function generateScrollspy() {
+            $(document.body).scrollspy({
+                target: ''
+            });
+            $(document.body).scrollspy('refresh');
+            if (enoughForAffixToc) {
+                toc.hide();
+                tocAffix.show();
+            } else {
+                tocAffix.hide();
+                toc.show();
+            }
+            $(document.body).scroll();
+        }
+
+        function windowResize() {
+            //toc right
+            var paddingRight = parseFloat(markdown.css('padding-right'));
+            var right = ($(window).width() - (markdown.offset().left + markdown.outerWidth() - paddingRight));
+            toc.css('right', right + 'px');
+            //affix toc left
+            var newbool;
+            var rightMargin = (markdown.parent().outerWidth() - markdown.outerWidth()) / 2;
+            //for ipad or wider device
+            if (rightMargin >= 133) {
+                newbool = true;
+                var affixLeftMargin = (tocAffix.outerWidth() - tocAffix.width()) / 2;
+                var left = markdown.offset().left + markdown.outerWidth() - affixLeftMargin;
+                tocAffix.css('left', left + 'px');
+            } else {
+                newbool = false;
+            }
+            if (newbool != enoughForAffixToc) {
+                enoughForAffixToc = newbool;
+                generateScrollspy();
+            }
+        }
+        $(window).resize(function () {
+            windowResize();
+        });
+        $(document).ready(function () {
+            windowResize();
+            generateScrollspy();
+        });
+
+        //remove hash
+        function removeHash() {
+            window.location.hash = '';
+        }
+
+        var backtotop = $('.back-to-top');
+        var gotobottom = $('.go-to-bottom');
+
+        backtotop.click(function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            if (scrollToTop)
+                scrollToTop();
+            removeHash();
+        });
+        gotobottom.click(function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            if (scrollToBottom)
+                scrollToBottom();
+            removeHash();
+        });
+
+        var toggle = $('.expand-toggle');
+        var tocExpand = false;
+
+        checkExpandToggle();
+        toggle.click(function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            tocExpand = !tocExpand;
+            checkExpandToggle();
+        })
+
+        function checkExpandToggle () {
+            var toc = $('.ui-toc-dropdown .toc');
+            var toggle = $('.expand-toggle');
+            if (!tocExpand) {
+                toc.removeClass('expand');
+                toggle.text('Expand all');
+            } else {
+                toc.addClass('expand');
+                toggle.text('Collapse all');
+            }
+        }
+
+        function scrollToTop() {
+            $('body, html').stop(true, true).animate({
+                scrollTop: 0
+            }, 100, "linear");
+        }
+
+        function scrollToBottom() {
+            $('body, html').stop(true, true).animate({
+                scrollTop: $(document.body)[0].scrollHeight
+            }, 100, "linear");
+        }
+    </script>
+</body>
+
+</html>
