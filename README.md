@@ -4,7 +4,7 @@ An implement of STM32469 about Bus-Station-Center IOT system.
 This is a project for [ARM Design Contest](http://www.armdesigncontest.com/event/).
 
 ## Project Introduce
-You can read the Chinese document in [`/document`](https://github.com/tigercosmos/bus-iot/blob/master/station), and the video is also there.
+You can read the Chinese document in [`/document`](https://github.com/tigercosmos/bus-iot/blob/master/document), and the video is also in there.
 
 ## Implement
 This project has three parts, which implements an IOT system.
